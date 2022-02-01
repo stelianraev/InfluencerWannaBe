@@ -18,7 +18,7 @@ namespace InfluencerWannaBe
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDbContext<ApplicationDbContext>(options => options
+                .AddDbContext<InfluencerWannaBeDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
@@ -31,9 +31,11 @@ namespace InfluencerWannaBe
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<InfluencerWannaBeDbContext>();
 
             services.AddControllersWithViews();
+
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

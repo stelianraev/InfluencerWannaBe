@@ -9,7 +9,7 @@ using System;
 
 namespace InfluencerWannaBe.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(InfluencerWannaBeDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
