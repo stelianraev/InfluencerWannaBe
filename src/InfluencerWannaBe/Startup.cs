@@ -1,6 +1,7 @@
 namespace InfluencerWannaBe
 {
     using InfluencerWannaBe.Data;
+    using InfluencerWannaBe.Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,7 @@ namespace InfluencerWannaBe
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)       
@@ -33,13 +35,13 @@ namespace InfluencerWannaBe
                 })
                 .AddEntityFrameworkStores<InfluencerWannaBeDbContext>();
 
-            services.AddControllersWithViews();
-
-            
+            services.AddControllersWithViews();            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -8,7 +8,7 @@
         public const int Username = 100;
         public const int DescriptionMaxLength = 500;
 
-        public const int CountryNameMaxLenght = 30;
+        public const int CountryNameMaxLenght = 70;
 
         public const int OfferTitlemaxLenght = 50;
         public const int RequirementsMaxLenght = 1000;
