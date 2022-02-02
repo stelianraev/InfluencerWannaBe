@@ -1,0 +1,116 @@
+﻿@model InfluencerRegistrationFormModel
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <h2 class = "text-center">Registration</h2>
+
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="FirstName">FirstName</label>
+                    <input asp-for="FirstName" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MiddleName">MiddleName</label>
+                    <input asp-for="MiddleName" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LastName">LastName</label>
+                    <input asp-for="LastName" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Age">Age</label>
+                    <input asp-for="Age" class="form-control">
+                </div>
+
+                 <div class="form-group">
+                    <label asp-for="GenderId">Gender</label>
+                    <select asp-for="GenderId" class="form-control">
+                        @foreach(var gender in Model.Genders)
+                        {
+                            <option value = "@gender.Id">@gender.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Username">Username</label>
+                    <input asp-for="Username" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PhoneNumber">PhoneNumber</label>
+                    <input asp-for="PhoneNumber" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email">Email</label>
+                    <input asp-for="Email" class="form-control" placeholder="user@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FacebookUrl">FacebookUrl</label>
+                    <input asp-for="FacebookUrl" class="form-control" placeholder="facebook.com">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="InstagramUrl">InstagramUrl</label>
+                    <input asp-for="InstagramUrl" class="form-control" placeholder="instagram.com">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TwitterUrl">TwitterUrl</label>
+                    <input asp-for="TwitterUrl" class="form-control" placeholder="twitter.com">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="YouTubeUrl">YouTubeUrl</label>
+                    <input asp-for="YouTubeUrl" class="form-control" placeholder="youtube.com">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TikTokUrl">TikTokUrl</label>
+                    <input asp-for="TikTokUrl" class="form-control" placeholder="tiktok.com">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="WebSiteUrl">WebSiteUrl</label>
+                    <input asp-for="WebSiteUrl" class="form-control" placeholder="www...">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description">Description</label>
+                    <textarea asp-for="Description" rows="4" class="form-control"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Photo">Photo</label>
+                    <input asp-for="Photo" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CountryId">Country</label>
+                    <select asp-for="CountryId" class="form-control">
+                        @foreach(var country in Model.Conutries)
+                        {
+                            <option value = "@country.Id">@country.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="GenderId">GenderId</label>
+                    <input asp-for="GenderId" class="form-control">
+                </div>
+
+                <input class="btn btn-primary" type="submit" value="Save" <input />
+            </form>
+        </div>
+    </div>
+</div>

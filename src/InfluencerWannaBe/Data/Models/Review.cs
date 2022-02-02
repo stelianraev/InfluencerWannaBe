@@ -1,5 +1,6 @@
 ﻿namespace InfluencerWannaBe.Data.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class Review
@@ -11,5 +12,8 @@
 
         [Required]
         public int StarCount { get; init; }
+
+        public int InfluencerId { get; set; }
+        public Influencer Influencer { get; set; }
     }
 }

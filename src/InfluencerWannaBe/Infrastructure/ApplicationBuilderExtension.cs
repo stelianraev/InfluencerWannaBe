@@ -23,6 +23,8 @@
             data.Database.Migrate();
 
             SeedCountries(data);
+            SeedGenders(data);
+
             return app;
         }
 
@@ -52,6 +54,24 @@
             }
 
                 data.SaveChanges();
+        }
+
+        private static void SeedGenders(InfluencerWannaBeDbContext data)
+        {
+            if (data.Genders.Any())
+            {
+                return;
+            }
+
+            data.Genders.AddRange(new[]
+            {
+                new Gender(){Name = "Man"},
+                new Gender(){Name = "Woman"},
+                new Gender() {Name = "Trans"},
+                new Gender() {Name = "Drag"}
+            });
+       
+            data.SaveChanges();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace InfluencerWannaBe.Data.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class Offer
@@ -18,5 +19,7 @@
 
         [Range(0, double.MaxValue)]
         public double Price { get; set; }
+
+        public IEnumerable<Influencer> Influencers { get; set; } = new List<Influencer>();
     }
 }

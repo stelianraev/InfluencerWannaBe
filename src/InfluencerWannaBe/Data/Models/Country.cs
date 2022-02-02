@@ -1,5 +1,6 @@
 ﻿namespace InfluencerWannaBe.Data.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     public class Country
     {
@@ -8,5 +9,7 @@
         [Required]
         [MaxLength(DataConstants.CountryNameMaxLenght)]
         public string Name { get; set; }
+
+        public IEnumerable<Influencer> Influencers{get; set;} = new List<Influencer>();
     }
 }
