@@ -1,26 +1,58 @@
 ﻿namespace InfluencerWannaBe.Models.Influencers
 {
+    using InfluencerWannaBe.Data;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class InfluencerRegistrationFormModel
     {
-        public int Id { get; init; }
+        [Required]
+        [StringLength(DataConstants.CompanyNameMaxLenght, MinimumLength = DataConstants.CompanyNameMinLenght, ErrorMessage = "First name should be between {2} and {1}")]
         public string FirstName { get; init; }
+
+        [StringLength(DataConstants.MiddleNameMaxLenght, ErrorMessage = "Middle name maximum is {1}")]
         public string MiddleName { get; init; }
+
+        [Required]
+        [StringLength(DataConstants.LastNameMaxLenght, MinimumLength = DataConstants.LastNameMinLenght, ErrorMessage = "Last name should be between {2} and {1}")]
         public string LastName { get; init; }
+
+        [Range(0, 120)]
         public int Age { get; init; }
+
+        [MaxLength(DataConstants.PhoneNumberMaxLenght)]
+        [StringLength(DataConstants.PhoneNumberMaxLenght, ErrorMessage = "Phone nomer maximum is {1}")]
         public string PhoneNumber { get; init; }
+
+        [Required]
+        [StringLength(DataConstants.UsernameMaxLenght, MinimumLength = DataConstants.UsernameMinLenght, ErrorMessage = "Username should be between {2} and {1}")]
         public string Username { get; init; }
-        public int GenderId { get; init; }      
-        public string FacebookUrl { get; init; }    
-        public string InstagramUrl { get; init; }      
-        public string TikTokUrl { get; init; }        
+        public int GenderId { get; init; }
+
+        [Url(ErrorMessage = "Invalid url")]
+        public string FacebookUrl { get; init; }
+
+        [Url(ErrorMessage = "Invalid url")]
+        public string InstagramUrl { get; init; }
+
+        [Url(ErrorMessage = "Invalid url")]
+        public string TikTokUrl { get; init; }
+
+        [Url(ErrorMessage = "Invalid url")]
         public string YouTubeUrl { get; init; }
+
+        [Url(ErrorMessage = "Invalid url")]
         public string TwitterUrl { get; init; }
+
+        [Url(ErrorMessage = "Invalid url")]
         public string WebSiteUrl { get; init; }
+
+        [StringLength(DataConstants.DescriptionMaxLength, ErrorMessage = "Description maximum is {1}")]
         public string Description { get; init; }
         public byte Photo { get; init; }
-        public string Discryption { get; init; }
+
+        [Required]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; init; }
         public int CountryId { get; init; }
         public IEnumerable<InfluencerCountryViewModel> Conutries { get; set; }

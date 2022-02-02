@@ -11,23 +11,24 @@
         [MaxLength(DataConstants.FirstNameMaxLenght)]
         public string FirstName { get; init; }
 
-        [MaxLength(DataConstants.MiddleName)]
+        [MaxLength(DataConstants.MiddleNameMaxLenght)]
         public string MiddleName { get; init; }
 
-        [MaxLength(DataConstants.LastName)]
+        [Required]
+        [MaxLength(DataConstants.LastNameMaxLenght)]
         public string LastName { get; init; }
 
-        [Range(0, 20)]
+        [MaxLength(DataConstants.PhoneNumberMaxLenght)]
         public string PhoneNumber { get; set; }
 
         [Required]
-        [MaxLength(DataConstants.Username)]
+        [MaxLength(DataConstants.UsernameMaxLenght)]
         public string Username { get; set; }
 
         [Range(0, 120)]
         public int Age { get; init; }
                 
-        public int Genderid { get; set; }
+        public int GenderId { get; set; }
         public Gender Gender { get; set; }
 
         [Url]
@@ -48,10 +49,7 @@
         public string Description { get; set; }
 
         [Required]
-        public byte Photo { get; set; }
-
-        [MaxLength(DataConstants.DescriptionMaxLength)]
-        public string Discription { get; set; }
+        public byte[] Photo { get; set; }
         public int CountryId { get; set; }
         public Country Country { get; init; }
 

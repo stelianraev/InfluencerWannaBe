@@ -8,13 +8,15 @@
         public int Id { get; init; }
 
         [Required]
-        [MaxLength(DataConstants.OfferTitlemaxLenght)]
+        [MaxLength(DataConstants.OfferTitleMaxLenght)]
         public string Title { get; set; }
 
         [MaxLength(DataConstants.DescriptionMaxLength)]
         public string Description { get; set; }
 
+        [Required]
         [MaxLength(DataConstants.RequirementsMaxLenght)]
+        [MinLength(DataConstants.RequirementsMinLenght)]
         public string Requirents { get; set; }
 
         [Range(0, double.MaxValue)]
