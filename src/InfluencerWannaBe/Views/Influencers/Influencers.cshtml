@@ -1,20 +1,24 @@
 ﻿@model AllInfluencersQueryModel
 
+@{ 
+    ViewData["Title"] = "All Influencers";
+}
+
 <form method="get">
     <div class="row mb-5">
         <div class="form-gorup col-md-4">
             <label asp-for="SearchTerm">Search</label>
-            <input asp-for="SearchTerm" class="form-control"/>
+            <input asp-for="SearchTerm" class="form-control" />
         </div>
 
-        <div class="form-gorup col-md-3">
+        <div class="form-gorup col-md-4">
             <div class="form-group">
-                <label asp-for="Sorting">Search</label>
+                <label asp-for="Sorting">Sort By</label>
                 <select asp-for="Sorting" class="form-control">
-                <option value="0" selected>Date Created</option>
-                <option value="1">FirstName</option>
-                <option value="2">Username</option>
-                <option value="3">Age</option>
+                    <option value="0" selected>Date Created</option>
+                    <option value="1">FirstName</option>
+                    <option value="2">Username</option>
+                    <option value="3">Age</option>
                 </select>
             </div>
         </div>
@@ -24,7 +28,6 @@
         </div>
     </div>
 </form>
-
 <div class="row">
     @foreach (var influencer in Model.Influencers)
     {
@@ -38,4 +41,33 @@
             </div>
         </div>
     }
+</div>
+
+@{ 
+    var previusPage = Model.CurrentPage - 1;
+    if(previusPage < 1)
+    {
+        previusPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalInfluencers / AllInfluencersQueryModel.InfluencersPerPage);
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Influencers"
+           asp-action="Influencers"
+           asp-route-currentPage="@(previusPage)"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-sorting="@((int)Model.Sorting)">Previous</a>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-primary float-lg-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
+           asp-controller="Influencers"
+           asp-action="Influencers"
+           asp-route-currentPage="@(Model.CurrentPage + 1)"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-sorting="@((int)Model.Sorting)">Next</a>
+    </div>
 </div>

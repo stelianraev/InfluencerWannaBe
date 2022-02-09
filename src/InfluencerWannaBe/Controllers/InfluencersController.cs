@@ -100,7 +100,11 @@
                InfluencerSorting.DateCreated or _=> influencersQuery.OrderByDescending(i => i.Id),
             };
 
+            var totalInfluencers = influencersQuery.Count();
+
             var influencers = influencersQuery
+                .Skip((query.CurrentPage - 1) * AllInfluencersQueryModel.InfluencersPerPage)
+                .Take(AllInfluencersQueryModel.InfluencersPerPage)
                 .Select(i => new InfluencerListingViewModel
                 {
                     Id = i.Id,
@@ -111,6 +115,7 @@
                 })
                 .ToList();
 
+            query.TotalInfluencers = totalInfluencers;
             query.Influencers = influencers;
 
             return View(query);
