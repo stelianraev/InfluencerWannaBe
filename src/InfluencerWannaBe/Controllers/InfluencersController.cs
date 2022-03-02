@@ -1,5 +1,6 @@
 ﻿namespace InfluencerWannaBe.Controllers
 {
+    using System.IO;
     using System.Linq;
     using System.Collections.Generic;
 
@@ -9,21 +10,24 @@
     using InfluencerWannaBe.Data;
     using InfluencerWannaBe.Data.Models;
     using Microsoft.AspNetCore.Http;
-    using System.IO;
+    using Microsoft.AspNetCore.Authorization;
 
     public class InfluencersController : Controller
     {
         private readonly InfluencerWannaBeDbContext data;
 
         public InfluencersController(InfluencerWannaBeDbContext data) => this.data = data;
-        public IActionResult Register() => View(new InfluencerRegistrationFormModel
+
+        [Authorize]
+        public IActionResult AddAccaunt() => View(new InfluencerRegistrationFormModel
         {
             Conutries = this.GetInfluencerCountries(),
             Genders = this.GetInfluencerGender(),
         });
 
+        [Authorize]
         [HttpPost]
-        public IActionResult Register(InfluencerRegistrationFormModel influencer, IFormFile photo)
+        public IActionResult AddAccaunt(InfluencerRegistrationFormModel influencer, IFormFile photo)
         {
             if (photo == null || photo.Length > 5 * 1024 * 1024)
             {
@@ -119,6 +123,26 @@
             query.Influencers = influencers;
 
             return View(query);
+        }
+
+        [Authorize]
+        public IActionResult Details(int id)
+        {
+            var selected = this.data.Influencers
+                .Where(x => x.Id == id)
+                .Select(x => new InfluencerViewModel
+                {
+                    Photo = x.Photo,
+                    Username = x.Username,
+                    FacebookUrl = x.FacebookUrl,
+                    InstagramUrl = x.InstagramUrl,
+                    TwitterUrl = x.TwitterUrl,
+                    CountryName = x.Country.Name,
+                    Email = x.Email
+                })
+                .FirstOrDefault();
+                
+            return this.View(selected);
         }
 
         private IEnumerable<InfluencerCountryViewModel> GetInfluencerCountries()
