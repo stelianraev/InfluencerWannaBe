@@ -4,20 +4,37 @@ using InfluencerWannaBe.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InfluencerWannaBe.Data.Migrations
 {
     [DbContext(typeof(InfluencerWannaBeDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220314124244_AddUserIDtoInfluencer")]
+    partial class AddUserIDtoInfluencer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CompanyInfluencer", b =>
+                {
+                    b.Property<int>("CompaniesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InfluencersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CompaniesId", "InfluencersId");
+
+                    b.HasIndex("InfluencersId");
+
+                    b.ToTable("InfluencerCompanies");
+                });
 
             modelBuilder.Entity("InfluencerOffer", b =>
                 {
@@ -32,6 +49,54 @@ namespace InfluencerWannaBe.Data.Migrations
                     b.HasIndex("OffersId");
 
                     b.ToTable("InfluencerOffers");
+                });
+
+            modelBuilder.Entity("InfluencerWannaBe.Data.Models.Company", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AnotherLinks")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("FacebookUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InstagramUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("TikTokUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TwitterUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WebsiteUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("YouTubeUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("InfluencerWannaBe.Data.Models.Country", b =>
@@ -125,7 +190,7 @@ namespace InfluencerWannaBe.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -144,10 +209,6 @@ namespace InfluencerWannaBe.Data.Migrations
 
                     b.HasIndex("GenderId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
                     b.ToTable("Influencers");
                 });
 
@@ -162,14 +223,8 @@ namespace InfluencerWannaBe.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<bool>("IsPossibleToSignIn")
-                        .HasColumnType("bit");
-
-                    b.Property<double>("Payment")
+                    b.Property<double>("Price")
                         .HasColumnType("float");
-
-                    b.Property<int>("PublisherId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Requirents")
                         .IsRequired()
@@ -183,60 +238,7 @@ namespace InfluencerWannaBe.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PublisherId");
-
                     b.ToTable("Offers");
-                });
-
-            modelBuilder.Entity("InfluencerWannaBe.Data.Models.Publisher", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AnotherLinks")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int?>("CountryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("FacebookUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InstagramUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("TikTokUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TwitterUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WebsiteUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("YouTubeUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("Publishers");
                 });
 
             modelBuilder.Entity("InfluencerWannaBe.Data.Models.Review", b =>
@@ -246,6 +248,9 @@ namespace InfluencerWannaBe.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -253,17 +258,14 @@ namespace InfluencerWannaBe.Data.Migrations
                     b.Property<int>("InfluencerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PublisherId")
-                        .HasColumnType("int");
-
                     b.Property<int>("StarCount")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InfluencerId");
+                    b.HasIndex("CompanyId");
 
-                    b.HasIndex("PublisherId");
+                    b.HasIndex("InfluencerId");
 
                     b.ToTable("Reviews");
                 });
@@ -468,6 +470,21 @@ namespace InfluencerWannaBe.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("CompanyInfluencer", b =>
+                {
+                    b.HasOne("InfluencerWannaBe.Data.Models.Company", null)
+                        .WithMany()
+                        .HasForeignKey("CompaniesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InfluencerWannaBe.Data.Models.Influencer", null)
+                        .WithMany()
+                        .HasForeignKey("InfluencersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("InfluencerOffer", b =>
                 {
                     b.HasOne("InfluencerWannaBe.Data.Models.Influencer", null)
@@ -481,6 +498,15 @@ namespace InfluencerWannaBe.Data.Migrations
                         .HasForeignKey("OffersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("InfluencerWannaBe.Data.Models.Company", b =>
+                {
+                    b.HasOne("InfluencerWannaBe.Data.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("InfluencerWannaBe.Data.Models.Influencer", b =>
@@ -497,47 +523,22 @@ namespace InfluencerWannaBe.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithOne()
-                        .HasForeignKey("InfluencerWannaBe.Data.Models.Influencer", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("Country");
 
                     b.Navigation("Gender");
                 });
 
-            modelBuilder.Entity("InfluencerWannaBe.Data.Models.Offer", b =>
-                {
-                    b.HasOne("InfluencerWannaBe.Data.Models.Publisher", "Publisher")
-                        .WithMany("Offers")
-                        .HasForeignKey("PublisherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Publisher");
-                });
-
-            modelBuilder.Entity("InfluencerWannaBe.Data.Models.Publisher", b =>
-                {
-                    b.HasOne("InfluencerWannaBe.Data.Models.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId");
-
-                    b.Navigation("Country");
-                });
-
             modelBuilder.Entity("InfluencerWannaBe.Data.Models.Review", b =>
                 {
+                    b.HasOne("InfluencerWannaBe.Data.Models.Company", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("CompanyId");
+
                     b.HasOne("InfluencerWannaBe.Data.Models.Influencer", "Influencer")
                         .WithMany("Reviews")
                         .HasForeignKey("InfluencerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("InfluencerWannaBe.Data.Models.Publisher", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("PublisherId");
 
                     b.Navigation("Influencer");
                 });
@@ -593,6 +594,11 @@ namespace InfluencerWannaBe.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("InfluencerWannaBe.Data.Models.Company", b =>
+                {
+                    b.Navigation("Reviews");
+                });
+
             modelBuilder.Entity("InfluencerWannaBe.Data.Models.Country", b =>
                 {
                     b.Navigation("Influencers");
@@ -605,13 +611,6 @@ namespace InfluencerWannaBe.Data.Migrations
 
             modelBuilder.Entity("InfluencerWannaBe.Data.Models.Influencer", b =>
                 {
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("InfluencerWannaBe.Data.Models.Publisher", b =>
-                {
-                    b.Navigation("Offers");
-
                     b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618

@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using InfluencerWannaBe.Services.Influencers
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IInfluencerService Influencers
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,9 +27,22 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Influencers" asp-action="AddAccaunt">Add Account</a>
-                            </li>
+                            var userId = User.GetId();
+                            var userIsInfluencer = Influencers.IsInfluencer(userId);
+                            //var userIsCompany = Influencers.IsCompany(userId);
+
+                            if (!userIsInfluencer)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Influencers" asp-action="AddAccaunt">Become Influencer</a>
+                                </li>
+                            }
+                            //if (!userIsCompany)
+                            //{
+                            //    <li class="nav-item">
+                            //        <a class="nav-link text-dark" asp-area="" asp-controller="Offers" asp-action="Publish">Offers</a>
+                            //    </li>
+                            //}
                         }
 
                         <li class="nav-item">

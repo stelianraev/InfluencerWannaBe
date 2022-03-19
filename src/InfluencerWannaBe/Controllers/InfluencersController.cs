@@ -6,29 +6,38 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    using InfluencerWannaBe.Models.Influencers;
     using InfluencerWannaBe.Data;
-    using InfluencerWannaBe.Data.Models;
     using Microsoft.AspNetCore.Http;
+    using InfluencerWannaBe.Data.Models;
+    using InfluencerWannaBe.Infrastructure;
     using Microsoft.AspNetCore.Authorization;
+    using InfluencerWannaBe.Models.Influencers;
+    using InfluencerWannaBe.Services.Influencers;
 
     public class InfluencersController : Controller
     {
         private readonly InfluencerWannaBeDbContext data;
+        private readonly IInfluencerService influencers;
 
-        public InfluencersController(InfluencerWannaBeDbContext data) => this.data = data;
+        public InfluencersController(InfluencerWannaBeDbContext data, IInfluencerService influencers)
+        {
+            this.influencers = influencers;
+            this.data = data;
+        }
 
         [Authorize]
         public IActionResult AddAccaunt() => View(new InfluencerRegistrationFormModel
         {
             Conutries = this.GetInfluencerCountries(),
-            Genders = this.GetInfluencerGender(),
+            Genders = this.GetInfluencerGender()
         });
 
         [Authorize]
         [HttpPost]
         public IActionResult AddAccaunt(InfluencerRegistrationFormModel influencer, IFormFile photo)
         {
+            var influencerId = this.influencers.IdByUser(this.User.GetId());
+
             if (photo == null || photo.Length > 5 * 1024 * 1024)
             {
                 this.ModelState.AddModelError("Photo", "Image is too big. Max size is 5MB");
@@ -74,7 +83,8 @@
                 YouTubeUrl = influencer.YouTubeUrl,
                 TikTokUrl = influencer.TikTokUrl,
                 Photo = imageBytes,
-                WebSiteUrl = influencer.WebSiteUrl
+                WebSiteUrl = influencer.WebSiteUrl,
+                UserId = User.GetId()
             };
 
             this.data.Influencers.Add(influencerData);

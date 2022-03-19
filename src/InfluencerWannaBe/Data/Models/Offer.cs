@@ -20,7 +20,13 @@
         public string Requirents { get; set; }
 
         [Range(0, double.MaxValue)]
-        public double Price { get; set; }
+        public double Payment { get; set; }
+
+        public int PublisherId { get; set; }
+
+        public Publisher Publisher { get; set; }
+
+        public bool IsPossibleToSignIn { get; set; }
 
         public IEnumerable<Influencer> Influencers { get; set; } = new List<Influencer>();
     }

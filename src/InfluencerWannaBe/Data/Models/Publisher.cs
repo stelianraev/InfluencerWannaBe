@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace InfluencerWannaBe.Data.Models
 {
-    public class Company
+    public class Publisher
     {
         public int Id { get; init; }
 
@@ -15,6 +15,8 @@ namespace InfluencerWannaBe.Data.Models
         public string Description { get; set; }
 
         public Country Country { get; set; }
+                
+        public string UserId { get; set; }
 
         [Url]
         public string WebsiteUrl { get; set; }
@@ -32,7 +34,7 @@ namespace InfluencerWannaBe.Data.Models
         //if the you have more profiles in different platforms tobe possible to describe it
         [MaxLength(DataConstants.DescriptionMaxLength)]
         public string AnotherLinks { get; set; }
-        public List<Review> Reviews { get; set; } = new List<Review>();
-        public List<Influencer> Influencers { get; set; } = new List<Influencer>();
+        public List<Offer> Offers { get; init; } = new List<Offer>();
+        public List<Review> Reviews { get; init; } = new List<Review>();
     }
 }

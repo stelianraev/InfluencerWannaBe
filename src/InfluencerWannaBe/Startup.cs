@@ -1,15 +1,18 @@
 namespace InfluencerWannaBe
 {
-    using InfluencerWannaBe.Data;
-    using InfluencerWannaBe.Infrastructure;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
+
+    using InfluencerWannaBe.Data;
+    using InfluencerWannaBe.Infrastructure;
+    using InfluencerWannaBe.Services.Influencers;
+    using InfluencerWannaBe.Services.Publisher;
 
     public class Startup
     {
@@ -21,6 +24,8 @@ namespace InfluencerWannaBe
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddTransient<IPublisherService, PublisherService>()
+                .AddTransient<IInfluencerService, InfluencerService>()
                 .AddDbContext<InfluencerWannaBeDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -34,9 +39,9 @@ namespace InfluencerWannaBe
                     options.Password.RequireLowercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
-                })
+                })                
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<InfluencerWannaBeDbContext>();
+                .AddEntityFrameworkStores<InfluencerWannaBeDbContext>();            
 
             services.AddControllersWithViews( options =>
             {

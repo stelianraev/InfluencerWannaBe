@@ -58,6 +58,6 @@
         public string Email { get; set; }
         public List<Offer> Offers { get; init; } = new List<Offer>();
         public List<Review> Reviews { get; init; } = new List<Review>();
-        public IEnumerable<Company> Companies { get; set; } = new List<Company>();
+        public string UserId { get; set; }
     }
 }

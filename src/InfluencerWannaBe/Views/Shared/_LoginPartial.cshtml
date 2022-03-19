@@ -1,26 +1,59 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using InfluencerWannaBe.Services.Influencers
+@using InfluencerWannaBe.Services.Publisher
+
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IInfluencerService Influencers
+@inject IPublisherService Publishers
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var userId = User.GetId();
+        var userIsInfluencer = Influencers.IsInfluencer(userId);
+        var userIsPublisher = Publishers.IsPublisher(userId);
+
+
+        @if (userIsInfluencer)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-controller="Influencer" asp-action="Offers">Influencer Offers</a>
+            </li>
+        }
+        @if (userIsPublisher)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-controller="Publisher" asp-action="Offers">Published Offers</a>
+            </li>
+        }
+        //else
+        //{
+        //    <li class="nav-item">
+        //        <a class="nav-link text-dark" asp-controller="Influencer" asp-action="Become">Become Influencer</a>
+        //    </li>
+        //}
+
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-controller="Influencer" asp-action="MyAccount">My Account</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
 </ul>
