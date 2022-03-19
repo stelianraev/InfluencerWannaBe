@@ -24,6 +24,8 @@
 
         public int PublisherId { get; set; }
 
+        public byte[] Photo { get; set; }
+
         public Publisher Publisher { get; set; }
 
         public bool IsPossibleToSignIn { get; set; }

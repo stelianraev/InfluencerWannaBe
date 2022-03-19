@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class AllInfluencersQueryModel
+    public class AllInfluencersQueryModel 
     {
         //How many influencers per page we want
         public const int InfluencersPerPage = 2;

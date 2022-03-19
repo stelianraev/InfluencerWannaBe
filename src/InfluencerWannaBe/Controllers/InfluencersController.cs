@@ -132,7 +132,7 @@
             query.TotalInfluencers = totalInfluencers;
             query.Influencers = influencers;
 
-            return View(query);
+            return this.View(query);
         }
 
         [Authorize]
