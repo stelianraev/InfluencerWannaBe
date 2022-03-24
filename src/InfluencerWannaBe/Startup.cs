@@ -13,6 +13,7 @@ namespace InfluencerWannaBe
     using InfluencerWannaBe.Infrastructure;
     using InfluencerWannaBe.Services.Influencers;
     using InfluencerWannaBe.Services.Publisher;
+    using InfluencerWannaBe.Services;
 
     public class Startup
     {
@@ -26,6 +27,7 @@ namespace InfluencerWannaBe
             services
                 .AddTransient<IPublisherService, PublisherService>()
                 .AddTransient<IInfluencerService, InfluencerService>()
+                .AddTransient<IGetCollection, GetCollection>()
                 .AddDbContext<InfluencerWannaBeDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 

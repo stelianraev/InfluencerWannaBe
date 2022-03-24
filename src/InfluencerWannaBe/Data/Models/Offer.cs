@@ -15,16 +15,19 @@
         public string Description { get; set; }
 
         [Required]
-        [MaxLength(DataConstants.RequirementsMaxLenght)]
-        [MinLength(DataConstants.RequirementsMinLenght)]
+        [MaxLength(DataConstants.OfferRequirementsMaxLenght)]
+        [MinLength(DataConstants.OfferRequirementsMinLenght)]
         public string Requirents { get; set; }
 
         [Range(0, double.MaxValue)]
         public double Payment { get; set; }
-
-        public int PublisherId { get; set; }
+            
+        public int CountryId { get; init; }
+        public Country Country { get; init; }
 
         public byte[] Photo { get; set; }
+        public string OwnerId { get; set; }
+        public int PublisherId { get; set; }
 
         public Publisher Publisher { get; set; }
 

@@ -5,6 +5,7 @@
         Title = 1,
         Username = 2,
         PaymentAZ = 3,
-        PaymentZA = 4
+        PaymentZA = 4,
+        Country = 5
     }
 }

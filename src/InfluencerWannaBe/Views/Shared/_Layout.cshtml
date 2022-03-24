@@ -1,9 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using InfluencerWannaBe.Services.Influencers
+@using InfluencerWannaBe.Services.Publisher
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @inject IInfluencerService Influencers
+@inject IPublisherService Publishers
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,6 +16,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
+@if (SignInManager.IsSignedIn(User))
+{
+    var userId = User.GetId();
+    var userIsInfluencer = Influencers.IsInfluencer(userId);
+    var userIsPublisher = Publishers.IsPublisher(userId);
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -25,31 +33,38 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            var userId = User.GetId();
-                            var userIsInfluencer = Influencers.IsInfluencer(userId);
-                            //var userIsCompany = Influencers.IsCompany(userId);
-
-                            if (!userIsInfluencer)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Influencers" asp-action="AddAccaunt">Become Influencer</a>
-                                </li>
-                            }
-                            //if (!userIsCompany)
-                            //{
-                            //    <li class="nav-item">
-                            //        <a class="nav-link text-dark" asp-area="" asp-controller="Offers" asp-action="Publish">Offers</a>
-                            //    </li>
-                            //}
-                        }
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Influencers" asp-action="Influencers">Influencers</a>
+                        <li class="dropdown show">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Influencers
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" asp-controller="Influencers" asp-action="Influencers">All</a>
+                                @if (!userIsInfluencer)
+                                {
+                                    <a class="dropdown-item" asp-controller="Influencers" asp-action="AddAccaunt">Become Influencer</a>
+                                }
+                                </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Offers" asp-action="Offers">Offers</a>
+                        <li class="dropdown show">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Offers
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" asp-controller="Offers" asp-action="Offers">All</a>
+                                <a class="dropdown-item" asp-controller="Offers" asp-action="AddOffer">Add offer</a>
+                            </div>
+                        </li>
+                        <li class="dropdown show">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Publishers
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" asp-controller="Publishers" asp-action="">All</a>
+                                @if (!userIsPublisher)
+                                 {
+                                    <a class="dropdown-item" asp-controller="Publishers" asp-action="BecomePublisher">BecomePublisher</a>
+                                 }
+                            </div>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -73,4 +88,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+}
 </html>

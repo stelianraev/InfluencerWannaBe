@@ -34,9 +34,17 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
+                .Entity<Country>()
+                .HasMany(x => x.Publishers)
+                .WithOne(x => x.Country)
+                .HasForeignKey(x => x.CountryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
                 .Entity<Publisher>()
                 .HasMany(i => i.Offers)
                 .WithOne(c => c.Publisher)
+                .HasForeignKey(x => x.CountryId)
                 .HasForeignKey(x => x.PublisherId);
 
             builder

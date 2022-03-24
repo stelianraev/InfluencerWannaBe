@@ -3,7 +3,7 @@
     public static class DataConstants
     {
         public const int FirstNameMaxLenght = 50;
-        public const int FistNameMinLenght = 1;
+        public const int FirstNameMinLenght = 1;
 
         public const int MiddleNameMaxLenght = 50;
 
@@ -23,10 +23,14 @@
         public const int OfferTitleMaxLenght = 50;
         public const int OfferTitleMinLenght = 6;
 
-        public const int RequirementsMaxLenght = 1000;
-        public const int RequirementsMinLenght = 10;
+        public const int OfferRequirementsMaxLenght = 1000;
+        public const int OfferRequirementsMinLenght = 10;
 
-        public const int CompanyNameMaxLenght = 100;
-        public const int CompanyNameMinLenght = 2;
+        public const int OfferDescriptionMaxLengt = 500;
+        public const int OfferDescriptionMinLengt = 4;
+
+        public const int PublisherMaxName = 50;
+
+        public const int OfferPaymentMin = 0;
     }
 }

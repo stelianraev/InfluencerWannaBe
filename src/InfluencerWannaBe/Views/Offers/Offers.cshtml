@@ -18,7 +18,8 @@
                     <option value="1">Title</option>
                     <option value="2">Username</option>
                     <option value="3">PaymentAZ</option>
-                    <option value="3">PaymentZA</option>
+                    <option value="4">PaymentZA</option>
+                    <option value="5">Country</option>
                 </select>
             </div>
         </div>
@@ -33,9 +34,9 @@
     {
         <div class="col-md-4">
             <div class="card mb-3" style="width: 18rem;">
-                <img class="card-img-top" src="data:image/jpeg;base64,@(Convert.ToBase64String(offer.Photo))" alt="@offer.Title @offer.PublisherUserName @offer.Payment">
+                <img class="card-img-top" src="data:image/jpeg;base64,@(Convert.ToBase64String(offer.Photo))" alt="@offer.Title @offer.PublisherUserName @offer.Payment" @offer.Country>
                 <div class="card-body text-center">
-                    <h5 class="card-title text-center">@offer.Title @offer.PublisherUserName @offer.Payment</h5>
+                    <h5 class="card-title text-center">@offer.Title @offer.PublisherUserName @offer.Payment @offer.Country</h5>
                     <a asp-controller="Influencers" asp-action="Details" asp-route-id="@offer.Id" class="btn btn-primary">Details</a>
                 </div>
             </div>

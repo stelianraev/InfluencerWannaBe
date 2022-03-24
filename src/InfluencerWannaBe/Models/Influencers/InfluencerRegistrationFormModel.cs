@@ -7,7 +7,7 @@
     public class InfluencerRegistrationFormModel
     {
         [Required]
-        [StringLength(DataConstants.CompanyNameMaxLenght, MinimumLength = DataConstants.CompanyNameMinLenght, ErrorMessage = "First name should be between {2} and {1}")]
+        [StringLength(DataConstants.FirstNameMaxLenght, MinimumLength = DataConstants.FirstNameMinLenght, ErrorMessage = "First name should be between {2} and {1}")]
         public string FirstName { get; init; }
 
         [StringLength(DataConstants.MiddleNameMaxLenght, ErrorMessage = "Middle name maximum is {1}")]
@@ -51,11 +51,11 @@
         public string Description { get; init; }
         public byte Photo { get; init; }
 
-        [Required]
-        [EmailAddress(ErrorMessage = "Invalid email address")]
-        public string Email { get; init; }
+       //[Required]
+       //[EmailAddress(ErrorMessage = "Invalid email address")]
+       //public string Email { get; init; }
         public int CountryId { get; init; }
-        public IEnumerable<InfluencerCountryViewModel> Conutries { get; set; }
-        public IEnumerable<InfluencerGenderViewModel> Genders { get; set; }
+        public IEnumerable<CountryViewModel> Conutries { get; set; }
+        public IEnumerable<GenderViewModel> Genders { get; set; }
     }
 }

@@ -1,0 +1,56 @@
+﻿@model OffersRegistrationFormModel
+@{
+    ViewData["Title"] = "Add Offer";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <h2 class="text-center">Add Offer</h2>
+
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="Title">Title</label>
+                    <input asp-for="Title" class="form-control">
+                    <span asp-validation-for="Title" class="small text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Photo">Profile Photo</label>
+                    <input type="file" name="Photo" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description">Description</label>
+                    <textarea asp-for="Description" rows="4" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="small text - danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Requirements">Requirements</label>
+                    <textarea asp-for="Requirements" rows="4" class="form-control"></textarea>
+                    <span asp-validation-for="Requirements" class="small text - danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CountryId">Country</label>
+                    <select asp-for="CountryId" class="form-control">
+                        @foreach (var country in Model.Conutries)
+                        {
+                            <option value="@country.Id">@country.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CountryId" class="small text - danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Payment">Payment</label>
+                    <input asp-for="Payment" class="form-control" placeholder="user@example.com">
+                    <span asp-validation-for="Payment" class="small text-danger"></span>
+                </div>
+
+                <input class="btn btn-primary" type="submit" value="Save">
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
-﻿namespace InfluencerWannaBe.Models.Influencers
+﻿namespace InfluencerWannaBe.Models
 {
-    public class InfluencerGenderViewModel
+    public class GenderViewModel
     {
         public int Id { get; init; }
         public string Name { get; init; }

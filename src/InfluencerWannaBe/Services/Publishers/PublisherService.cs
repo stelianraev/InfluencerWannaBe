@@ -12,7 +12,14 @@
 
         public bool IsPublisher(string userId)
         => this.data
-            .Influencers
+            .Publishers
             .Any(x => x.UserId == userId);
+
+        public int IdByUser(string userId)
+         => this.data
+                .Publishers
+                .Where(d => d.UserId == userId)
+                .Select(d => d.Id)
+                .FirstOrDefault();
     }
 }

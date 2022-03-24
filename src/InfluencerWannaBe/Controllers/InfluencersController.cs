@@ -2,7 +2,6 @@
 {
     using System.IO;
     using System.Linq;
-    using System.Collections.Generic;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -12,24 +11,27 @@
     using InfluencerWannaBe.Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using InfluencerWannaBe.Models.Influencers;
+    using InfluencerWannaBe.Services;
     using InfluencerWannaBe.Services.Influencers;
 
     public class InfluencersController : Controller
     {
         private readonly InfluencerWannaBeDbContext data;
         private readonly IInfluencerService influencers;
+        private readonly IGetCollection getCollection;
 
-        public InfluencersController(InfluencerWannaBeDbContext data, IInfluencerService influencers)
+        public InfluencersController(InfluencerWannaBeDbContext data, IInfluencerService influencers, IGetCollection getCollection)
         {
             this.influencers = influencers;
             this.data = data;
+            this.getCollection = getCollection;
         }
 
         [Authorize]
         public IActionResult AddAccaunt() => View(new InfluencerRegistrationFormModel
         {
-            Conutries = this.GetInfluencerCountries(),
-            Genders = this.GetInfluencerGender()
+            Conutries = this.getCollection.GetCountries(),
+            Genders = this.getCollection.GetGender()
         });
 
         [Authorize]
@@ -52,11 +54,15 @@
             {
                 this.ModelState.AddModelError(nameof(influencer.GenderId), "Gender do not exist");
             }
+            if(influencerId != 0)
+            {
+                this.ModelState.AddModelError(nameof(influencer), "Influencer already exist");
+            }
 
             if (!ModelState.IsValid)
             {
-                influencer.Conutries = this.GetInfluencerCountries();
-                influencer.Genders = this.GetInfluencerGender();
+                influencer.Conutries = this.getCollection.GetCountries();
+                influencer.Genders = this.getCollection.GetGender();
 
                 return View(influencer);
             }
@@ -75,7 +81,7 @@
                 Username = influencer.Username,
                 CountryId = influencer.CountryId,
                 Description = influencer.Description,
-                Email = influencer.Email,
+                Email = User.GetEmail(),
                 PhoneNumber = influencer.PhoneNumber,
                 InstagramUrl = influencer.InstagramUrl,
                 FacebookUrl = influencer.FacebookUrl,
@@ -93,6 +99,7 @@
             return RedirectToAction(nameof(Influencers));
         }
 
+        [Authorize]
         public IActionResult Influencers([FromQuery] AllInfluencersQueryModel query) 
         {
             var influencersQuery = this.data.Influencers.AsQueryable();
@@ -148,31 +155,12 @@
                     InstagramUrl = x.InstagramUrl,
                     TwitterUrl = x.TwitterUrl,
                     CountryName = x.Country.Name,
+                    Age = x.Age,
                     Email = x.Email
                 })
                 .FirstOrDefault();
                 
             return this.View(selected);
         }
-
-        private IEnumerable<InfluencerCountryViewModel> GetInfluencerCountries()
-        => this.data
-            .Countries
-            .Select(c => new InfluencerCountryViewModel
-            {
-                Id = c.Id,
-                Name = c.Name
-            })
-            .ToList();
-    
-        private IEnumerable<InfluencerGenderViewModel> GetInfluencerGender()
-        => this.data
-           .Genders
-           .Select(c => new InfluencerGenderViewModel
-           {
-               Id = c.Id,
-               Name = c.Name
-           })
-           .ToList();
     }
 }
