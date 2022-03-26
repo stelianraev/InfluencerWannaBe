@@ -3,9 +3,9 @@
     using InfluencerWannaBe.Data;
     using InfluencerWannaBe.Data.Models;
     using InfluencerWannaBe.Infrastructure;
-    using InfluencerWannaBe.Models.Influencers;
     using InfluencerWannaBe.Models.Offers;
     using InfluencerWannaBe.Services;
+    using InfluencerWannaBe.Services.Publisher;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -15,12 +15,14 @@
     public class OffersController : Controller
     {
         private readonly InfluencerWannaBeDbContext data;
+        private readonly IPublisherService publisherService;
         private readonly IGetCollection getCollection;
 
-        public OffersController(InfluencerWannaBeDbContext data, IGetCollection getCollection)
+        public OffersController(InfluencerWannaBeDbContext data, IPublisherService publisherService, IGetCollection getCollection)
         {
             this.data = data;
-            this.getCollection = getCollection;         
+            this.getCollection = getCollection;
+            this.publisherService = publisherService;
         }
 
         [Authorize]
@@ -33,7 +35,7 @@
                 offersQuery = offersQuery.Where(i =>
                    i.Title.ToLower().Contains(query.SearchTerm.ToLower()) ||
                    i.Publisher.Username.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                   i.Influencers.Any(x => x.Username == query.SearchTerm.ToLower()));
+                   i.SignUpInfluencers.Any(x => x.Username == query.SearchTerm.ToLower()));
             }
 
             offersQuery = query.Sorting switch
@@ -49,8 +51,8 @@
             var totalOffers = offersQuery.Count();
 
             var offers = offersQuery
-                .Skip((query.CurrentPage - 1) * AllInfluencersQueryModel.InfluencersPerPage)
-                .Take(AllInfluencersQueryModel.InfluencersPerPage)
+                .Skip((query.CurrentPage - 1) * AllOffersQueryModel.OffersPerPage)
+                .Take(AllOffersQueryModel.OffersPerPage)
                 .Select(i => new OffersListingViewModel
                 {
                     Id = i.Id,
@@ -69,15 +71,27 @@
         }
 
         [Authorize]
-        public IActionResult AddOffer() => View(new OffersRegistrationFormModel
+        public IActionResult AddOffer()
         {
-            Conutries = this.getCollection.GetCountries(),          
-        });
+            var publisher = this.publisherService.IsPublisher(this.User.GetId());
+
+            if (!publisher)
+            {
+               return RedirectToAction("BecomePublisher", "Publishers", new { area = "" });
+            }
+
+            return View(new OffersRegistrationFormModel
+            {
+                Conutries = this.getCollection.GetCountries(),
+            });
+        }
 
         [Authorize]
         [HttpPost]
         public IActionResult AddOffer(OffersRegistrationFormModel offer, IFormFile photo)
         {
+            var publisher = this.publisherService.IsPublisher(this.User.GetId());
+
             if (photo == null || photo.Length > 5 * 1024 * 1024)
             {
                 this.ModelState.AddModelError("Photo", "Image is too big. Max size is 5MB");

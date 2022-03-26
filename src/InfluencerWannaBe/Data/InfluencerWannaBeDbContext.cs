@@ -44,13 +44,18 @@
                 .Entity<Publisher>()
                 .HasMany(i => i.Offers)
                 .WithOne(c => c.Publisher)
-                .HasForeignKey(x => x.CountryId)
+                .HasForeignKey(x => x.PublisherId);
+
+            builder
+                .Entity<Publisher>()
+                .HasMany(i => i.Reviews)
+                .WithOne(c => c.Publisher)
                 .HasForeignKey(x => x.PublisherId);
 
             builder
                 .Entity<Influencer>()
-                .HasMany(i => i.Offers)
-                .WithMany(o => o.Influencers)
+                .HasMany(i => i.SignUpOffers)
+                .WithMany(o => o.SignUpInfluencers)
                 .UsingEntity(x => x.ToTable("InfluencerOffers"));
 
             builder

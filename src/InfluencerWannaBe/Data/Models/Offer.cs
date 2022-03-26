@@ -33,6 +33,7 @@
 
         public bool IsPossibleToSignIn { get; set; }
 
-        public IEnumerable<Influencer> Influencers { get; set; } = new List<Influencer>();
+        public IEnumerable<Publisher> Publishers { get; set; } = new List<Publisher>();
+        public IEnumerable<Influencer> SignUpInfluencers { get; set; } = new List<Influencer>();
     }
 }

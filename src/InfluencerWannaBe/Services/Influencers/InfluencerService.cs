@@ -1,8 +1,8 @@
 ﻿namespace InfluencerWannaBe.Services.Influencers
 {
-    using InfluencerWannaBe.Data;
-    using System;
     using System.Linq;
+    using InfluencerWannaBe.Data;
+    using InfluencerWannaBe.Data.Models;
 
     public class InfluencerService : IInfluencerService
     {
@@ -22,6 +22,11 @@
                 .Where(d => d.UserId == userId)
                 .Select(d => d.Id)
                 .FirstOrDefault();
+
+        public Influencer GetInfluencer(string id)
+            => this.data
+                   .Influencers
+                   .FirstOrDefault(x => x.UserId == id);
 
     }
 }

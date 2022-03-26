@@ -1,0 +1,154 @@
+﻿@model PublisherRegistrationFormModel
+@{
+    ViewData["Title"] = "Become Publisher";
+}
+
+@using Microsoft.AspNetCore.Identity
+@using InfluencerWannaBe.Services.Influencers
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IInfluencerService Influencers
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <h2 class="text-center">Become Publisher</h2>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                var userId = User.GetId();
+                var userIsInfluencer = Influencers.IsInfluencer(userId);
+                var influencer = Influencers.GetInfluencer(userId);
+
+                if (userIsInfluencer)
+                {
+
+                    <a href="#" onClick="autoFill(); return true;">Click to Autofill</a>
+                    <br />
+                }
+
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label asp-for="FirstName">FirstName</label>
+                        <input asp-for="FirstName" class="form-control" id="firstname">
+                        <span asp-validation-for="FirstName" class="small text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="MiddleName">MiddleName</label>
+                        <input asp-for="MiddleName" class="form-control" id="middlename">
+                        <span asp-validation-for="MiddleName" class="small text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="LastName">LastName</label>
+                        <input asp-for="LastName" class="form-control" id="lastname">
+                        <span asp-validation-for="LastName" class="small text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="GenderId">Gender</label>
+                        <select asp-for="GenderId" class="form-control" id="gender">
+                            @foreach (var gender in Model.Genders)
+                            {
+                                <option value="@gender.Id">@gender.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="GenderId" class="small text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Username">Username</label>
+                        <input asp-for="Username" class="form-control" id="username">
+                        <span asp-validation-for="Username" class="small text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber">PhoneNumber</label>
+                        <input asp-for="PhoneNumber" class="form-control" id="phonenumber">
+                        <span asp-validation-for="PhoneNumber" class="small text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="FacebookUrl">FacebookUrl</label>
+                        <input asp-for="FacebookUrl" class="form-control" id="facebook" placeholder="facebook.com">
+                        <span asp-validation-for="FacebookUrl" class="small text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="InstagramUrl">InstagramUrl</label>
+                        <input asp-for="InstagramUrl" class="form-control" id="instagram" placeholder="instagram.com">
+                        <span asp-validation-for="InstagramUrl" class="small text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="TwitterUrl">TwitterUrl</label>
+                        <input asp-for="TwitterUrl" class="form-control" id="twitter" placeholder="twitter.com">
+                        <span asp-validation-for="TwitterUrl" class="small text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="YouTubeUrl">YouTubeUrl</label>
+                        <input asp-for="YouTubeUrl" class="form-control" id="youtube" placeholder="youtube.com">
+                        <span asp-validation-for="YouTubeUrl" class="small text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="TikTokUrl">TikTokUrl</label>
+                        <input asp-for="TikTokUrl" class="form-control" id="tiktok" placeholder="tiktok.com">
+                        <span asp-validation-for="TikTokUrl" class="small text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="WebSiteUrl">WebSiteUrl</label>
+                        <input asp-for="WebSiteUrl" class="form-control" id="website" placeholder="www...">
+                        <span asp-validation-for="WebSiteUrl" class="small text - danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description">Description</label>
+                        <textarea asp-for="Description" rows="4" class="form-control" id="description"></textarea>
+                        <span asp-validation-for="Description" class="small text - danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Photo">Profile Photo</label>
+                        <input type="file" name="Photo"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="CountryId">Country</label>
+                        <select asp-for="CountryId" class="form-control" id="country">
+                            @foreach (var country in Model.Conutries)
+                            {
+                                <option value="@country.Id">@country.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CountryId" class="small text - danger"></span>
+                    </div>
+
+                    <input class="btn btn-primary" type="submit" value="Save" />
+                </form>
+
+                <script type="text/javascript">
+                        function autoFill() {
+                            document.getElementById('firstname').value = "@influencer.FirstName";
+                            document.getElementById('middlename').value = "@influencer.MiddleName";
+                            document.getElementById('lastname').value = "@influencer.LastName";
+                            document.getElementById('gender').value = "@influencer.GenderId";
+                            document.getElementById('username').value = "@influencer.Username";
+                            document.getElementById('country').value = "@influencer.CountryId";
+                            document.getElementById('description').value = "@influencer.Description";
+                            document.getElementById('email').value = "@influencer.Email";
+                            document.getElementById('instagram').value = "@influencer.InstagramUrl";
+                            document.getElementById('facebook').value = "@influencer.FacebookUrl";
+                            document.getElementById('twitter').value = "@influencer.TwitterUrl";
+                            document.getElementById('youtube').value = "@influencer.YouTubeUrl";
+                            document.getElementById('tiktok').value = "@influencer.TikTokUrl";
+                            document.getElementById('phonenumber').value = "@influencer.PhoneNumber";
+                        }
+                </script>
+            }
+        </div>
+    </div>
+</div>

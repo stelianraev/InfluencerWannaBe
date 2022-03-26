@@ -1,8 +1,8 @@
 ﻿namespace InfluencerWannaBe.Models.Publishers
 {
     using InfluencerWannaBe.Data;
-    using InfluencerWannaBe.Data.Models;
     using System.Collections.Generic;
+    using InfluencerWannaBe.Data.Models;
     using System.ComponentModel.DataAnnotations;
 
     public class PublisherRegistrationFormModel
@@ -18,7 +18,6 @@
         [StringLength(DataConstants.LastNameMaxLenght, MinimumLength = DataConstants.LastNameMinLenght, ErrorMessage = "Last name should be between {2} and {1}")]
         public string LastName { get; init; }
 
-
         [MaxLength(DataConstants.DescriptionMaxLength)]
         public string Description { get; set; }
 
@@ -29,7 +28,7 @@
         public string UserId { get; set; }
 
         [Url]
-        public string WebsiteUrl { get; set; }
+        public string WebSiteUrl { get; set; }
         [Url]
         public string FacebookUrl { get; set; }
         [Url]
@@ -45,9 +44,9 @@
 
         public int GenderId { get; init; }
 
-        //[Required]
-        //[EmailAddress(ErrorMessage = "Invalid email address")]
-        //public string Email { get; init; }
+        [Required]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; }
 
         [MaxLength(DataConstants.PhoneNumberMaxLenght)]
         [StringLength(DataConstants.PhoneNumberMaxLenght, ErrorMessage = "Phone nomer maximum is {1}")]

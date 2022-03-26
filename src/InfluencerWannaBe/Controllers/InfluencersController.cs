@@ -38,6 +38,8 @@
         [HttpPost]
         public IActionResult AddAccaunt(InfluencerRegistrationFormModel influencer, IFormFile photo)
         {
+            influencer.Email = User.GetEmail();
+
             var influencerId = this.influencers.IdByUser(this.User.GetId());
 
             if (photo == null || photo.Length > 5 * 1024 * 1024)
@@ -54,7 +56,15 @@
             {
                 this.ModelState.AddModelError(nameof(influencer.GenderId), "Gender do not exist");
             }
-            if(influencerId != 0)
+            if (this.data.Influencers.Any(x => x.Username == influencer.Username))
+            {
+                this.ModelState.AddModelError(nameof(influencer.Username), "Username is already taken");
+            }
+            if (this.data.Influencers.Any(x => x.Email == User.GetEmail()))
+            {
+                this.ModelState.AddModelError(nameof(influencer.Email), "This email already exist");
+            }
+            if (influencerId != 0)
             {
                 this.ModelState.AddModelError(nameof(influencer), "Influencer already exist");
             }
@@ -81,7 +91,7 @@
                 Username = influencer.Username,
                 CountryId = influencer.CountryId,
                 Description = influencer.Description,
-                Email = User.GetEmail(),
+                Email = influencer.Email,
                 PhoneNumber = influencer.PhoneNumber,
                 InstagramUrl = influencer.InstagramUrl,
                 FacebookUrl = influencer.FacebookUrl,
@@ -155,6 +165,7 @@
                     InstagramUrl = x.InstagramUrl,
                     TwitterUrl = x.TwitterUrl,
                     CountryName = x.Country.Name,
+                    Gender = x.Gender.Name,
                     Age = x.Age,
                     Email = x.Email
                 })

@@ -1,7 +1,7 @@
-﻿@model AllInfluencersQueryModel
+﻿@model AllPublishersQueryModel
 
 @{ 
-    ViewData["Title"] = "All Influencers";
+    ViewData["Title"] = "All Publishers";
 }
 
 <form method="get">
@@ -18,7 +18,6 @@
                     <option value="0" selected>Date Created</option>
                     <option value="1">FirstName</option>
                     <option value="2">Username</option>
-                    <option value="3">Age</option>
                 </select>
             </div>
         </div>
@@ -29,14 +28,14 @@
     </div>
 </form>
 <div class="row">
-    @foreach (var influencer in Model.Influencers)
+    @foreach (var publisher in Model.Publishers)
     {
         <div class="col-md-4">
             <div class="card mb-3" style="width: 18rem;">
-                <img class="card-img-top" src="data:image/jpeg;base64,@(Convert.ToBase64String(influencer.Photo))" alt="@influencer.Username @influencer.Instagram @influencer.Facebook">
+                <img class="card-img-top" src="data:image/jpeg;base64,@(Convert.ToBase64String(publisher.Photo))" alt="@publisher.Username @publisher.Country">
                 <div class="card-body text-center">
-                    <h5 class="card-title text-center">@influencer.Username @influencer.Instagram @influencer.Facebook</h5>
-                    <a asp-controller="Influencers" asp-action="Details" asp-route-id="@influencer.Id" class="btn btn-primary">Details</a>
+                    <h5 class="card-title text-center">@publisher.Username @publisher.Country</h5>
+                    <a asp-controller="Influencers" asp-action="Details" asp-route-id="@publisher.Id" class="btn btn-primary">Details</a>
                 </div>
             </div>
         </div>
@@ -50,7 +49,7 @@
         previusPage = 1;
     }
 
-    var maxPage = Math.Ceiling((double)Model.TotalInfluencers / AllPublishersQueryModel.PublishersPerPage);
+    var maxPage = Math.Ceiling((double)Model.TotalPublishers / AllPublishersQueryModel.PublishersPerPage);
 }
 
 <div class="row">

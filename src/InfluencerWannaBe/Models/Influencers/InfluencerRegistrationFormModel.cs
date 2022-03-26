@@ -51,9 +51,9 @@
         public string Description { get; init; }
         public byte Photo { get; init; }
 
-       //[Required]
-       //[EmailAddress(ErrorMessage = "Invalid email address")]
-       //public string Email { get; init; }
+        [Required]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; }
         public int CountryId { get; init; }
         public IEnumerable<CountryViewModel> Conutries { get; set; }
         public IEnumerable<GenderViewModel> Genders { get; set; }
