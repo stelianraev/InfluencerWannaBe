@@ -73,10 +73,22 @@ namespace InfluencerWannaBe.Controllers
             //}
 
             var publisherId = this.publishers.IdByUser(this.User.GetId());
-
-            if (photo.Length > 5 * 1024 * 1024)
+            byte[] imageBytes = null;
+            if (photo != null)
             {
-                this.ModelState.AddModelError("Photo", "Image is too big. Max size is 5MB");
+                if (photo.Length > 5 * 1024 * 1024)
+                {
+                    this.ModelState.AddModelError("Photo", "Image is too big. Max size is 5MB");
+                }
+
+                var imageInMemory = new MemoryStream();
+                photo.CopyTo(imageInMemory);
+                imageBytes = imageInMemory.ToArray();
+            }
+            else
+            {
+                var file = Path.GetFullPath(@"wwwroot\pics\noimage.jpg");
+                imageBytes = System.IO.File.ReadAllBytes(file);                
             }
 
             if (!this.data.Countries.Any(x => x.Id == publisher.CountryId))
@@ -109,10 +121,6 @@ namespace InfluencerWannaBe.Controllers
                 return View(publisher);
             }
 
-            var imageInMemory = new MemoryStream();
-            photo.CopyTo(imageInMemory);
-            var imageBytes = imageInMemory.ToArray();
-
             var publisherData = new Publisher
             {
                 FirstName = publisher.FirstName,
@@ -128,10 +136,10 @@ namespace InfluencerWannaBe.Controllers
                 TwitterUrl = publisher.TwitterUrl,
                 YouTubeUrl = publisher.YouTubeUrl,
                 TikTokUrl = publisher.TikTokUrl,
-                Photo = imageBytes,
                 Email = publisher.Email,
                 WebsiteUrl = publisher.WebSiteUrl,
-                UserId = User.GetId()
+                Photo = imageBytes,
+                UserId = User.GetId()                
             };
 
             this.data.Publishers.Add(publisherData);
@@ -179,6 +187,27 @@ namespace InfluencerWannaBe.Controllers
             query.Publishers = publishers;
         
             return this.View(query);
+        }
+
+        [Authorize]
+        public IActionResult Details(int id)
+        {
+            var selected = this.data.Publishers
+                .Where(x => x.Id == id)
+                .Select(x => new PublisherViewModel
+                {
+                    Photo = x.Photo,
+                    Username = x.Username,
+                    FacebookUrl = x.FacebookUrl,
+                    InstagramUrl = x.InstagramUrl,
+                    TwitterUrl = x.TwitterUrl,
+                    CountryName = x.Country.Name,
+                    Gender = x.Gender.Name,
+                    Email = x.Email
+                })
+                .FirstOrDefault();
+
+            return this.View(selected);
         }
     }
 }

@@ -1,0 +1,75 @@
+﻿@model PublisherViewModel
+    
+<div class="row mb-5">
+    <div class="card mb-3" style="width: 18rem;">
+        <img class="card-img-top" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Photo))"><img />
+    </div>
+    <br />
+    <div class="form-gorup col-md-4">
+        <h3>Username: <span class="badge badge-secondary">@Model.Username</span></h3>
+        <br />
+        <h3>Country: <span class="badge badge-secondary">@Model.CountryName</span></h3>
+        <br />
+        @if (!(String.IsNullOrEmpty(Model.Gender) || String.IsNullOrWhiteSpace(Model.Gender)))
+        {
+            <h3>Gender: <span class="badge badge-secondary">@Model.Gender</span></h3>
+            <br />
+        }
+        @if (!(String.IsNullOrEmpty(Model.Description) || String.IsNullOrWhiteSpace(Model.Description)))
+        {
+            <h3>Description: <span class="badge badge-secondary">@Model.Description</span></h3>
+            <br />
+        }
+        <h3>Contacts</h3>
+        <br />
+        @if (!(String.IsNullOrEmpty(Model.FacebookUrl) || String.IsNullOrWhiteSpace(Model.FacebookUrl)))
+        {
+            <div class="nav-item">
+                <a class="nav-link active" href="@Model.FacebookUrl">Fcebook</a>
+            </div>
+            <br />
+        }
+        @if (!(String.IsNullOrEmpty(Model.InstagramUrl) || String.IsNullOrWhiteSpace(Model.InstagramUrl)))
+        {
+            <div class="nav-item">
+                <a class="nav-link active" href="@Model.InstagramUrl">Instagram</a>
+            </div>
+            <br />
+        }
+        @if (!(String.IsNullOrEmpty(Model.TwitterUrl) || String.IsNullOrWhiteSpace(Model.TwitterUrl)))
+        {
+            <div class="nav-item">
+                <a class="nav-link active" href="@Model.TwitterUrl">Twitter</a>
+            </div>
+            <br />
+        }
+        @if (!(String.IsNullOrEmpty(Model.TikTokUrl) || String.IsNullOrWhiteSpace(Model.TikTokUrl)))
+        {
+            <div class="nav-item">
+                <a class="nav-link active" href="@Model.TikTokUrl">TikTok</a>
+            </div>
+            <br />
+        }
+        @if (!(String.IsNullOrEmpty(Model.YouTubeUrl) || String.IsNullOrWhiteSpace(Model.YouTubeUrl)))
+        {
+            <div class="nav-item">
+                <a class="nav-link active" href="@Model.YouTubeUrl">YouTube</a>
+            </div>
+            <br />
+        }
+        @if (!(String.IsNullOrEmpty(Model.Email) || String.IsNullOrWhiteSpace(Model.Email)))
+        {
+            <div class="nav-item">
+                <a class="nav-link active" href="@Model.Email">Email</a>
+            </div>
+            <br />
+        }
+        @if (!(String.IsNullOrEmpty(Model.PhoneNumber) || String.IsNullOrWhiteSpace(Model.PhoneNumber)))
+        {
+            <div class="nav-item">
+                <a class="text-monospace" text="@Model.PhoneNumber">PhoneNumber</a>
+            </div>
+            <br />
+        }
+    </div>
+ </div>

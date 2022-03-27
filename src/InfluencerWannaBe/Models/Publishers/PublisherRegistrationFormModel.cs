@@ -44,7 +44,7 @@
 
         public int GenderId { get; init; }
 
-        [Required]
+        //[Required]
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
 

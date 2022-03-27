@@ -101,7 +101,10 @@
             {
                 this.ModelState.AddModelError(nameof(offer.CountryId), "Country do not exist");
             }
-
+            if (!this.data.Countries.Any(x => x.Id == offer.CountryId))
+            {
+                this.ModelState.AddModelError(nameof(offer.CountryId), "Country do not exist");
+            }
             if (!ModelState.IsValid)
             {
                 offer.Conutries = this.getCollection.GetCountries();
@@ -124,9 +127,31 @@
             };
 
             this.data.Offers.Add(offerData);
+            var offerOwner = this.data.Publishers.FirstOrDefault(x => x.UserId == offerData.OwnerId);
+            offerOwner.Offers.Add(offerData);
+            this.data.Publishers.Update(offerOwner);
             this.data.SaveChanges();
 
             return RedirectToAction(nameof(Offers));
+        }
+
+        [Authorize]
+        public IActionResult Details(int id)
+        {
+            var selected = this.data.Offers
+                .Where(x => x.Id == id)
+                .Select(x => new OfferViewModel
+                {
+                    Title = x.Title,
+                    CountryId = x.CountryId,
+                    Requirements = x.Requirents,
+                    Description = x.Description,
+                    CountryName = x.Country.Name,
+                    Photo = x.Photo
+                })
+                .FirstOrDefault();
+
+            return this.View(selected);
         }
     }
 }

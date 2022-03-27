@@ -113,7 +113,7 @@
 
                     <div class="form-group">
                         <label asp-for="Photo">Profile Photo</label>
-                        <input type="file" name="Photo"/>
+                        <input type="file" name="Photo" id="photo"/>
                     </div>
 
                     <div class="form-group">
@@ -146,6 +146,7 @@
                             document.getElementById('youtube').value = "@influencer.YouTubeUrl";
                             document.getElementById('tiktok').value = "@influencer.TikTokUrl";
                             document.getElementById('phonenumber').value = "@influencer.PhoneNumber";
+                            //document.getElementById('photo').src = "data:image/png;base64," + "@influencer.Photo";
                         }
                 </script>
             }

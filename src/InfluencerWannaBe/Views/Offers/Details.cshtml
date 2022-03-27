@@ -1,0 +1,43 @@
+﻿@model OfferViewModel
+
+@using InfluencerWannaBe.Services.Publisher
+
+@inject IPublisherService publishers
+
+<div class="row mb-5">
+    <div class="card mb-3" style="width: 18rem;">
+        <img class="card-img-top" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Photo))"><img />
+    </div>
+    <br />
+    <div class="form-gorup col-md-4">
+        <h3>Username: <span class="badge badge-secondary">@Model.Title</span></h3>
+        <br />
+        <h3>Country: <span class="badge badge-secondary">@Model.CountryName</span></h3>
+        <br />
+        @if (!(String.IsNullOrEmpty(Model.Requirements) || String.IsNullOrWhiteSpace(Model.Requirements)))
+        {
+            <h3>Requirements: <span class="badge badge-secondary">@Model.Requirements</span></h3>
+            <br />
+        }
+        @if (!(String.IsNullOrEmpty(Model.Description) || String.IsNullOrWhiteSpace(Model.Description)))
+        {
+            <h3>Description: <span class="badge badge-secondary">@Model.Description</span></h3>
+            <br />
+        }
+        @{
+            var publisher = publishers.GetPublisher(this.User.GetId());
+        }
+        <h3>Publisher</h3>
+        <br />
+        <h5>Username: <span class="badge badge-secondary">@publisher.Username</span></h5>
+        <br />
+        <h5>Offers Count: <span class="badge badge-secondary">@publisher.Offers.Count()</span></h5>
+        <br />
+        <h5>Reviews Count: <span class="badge badge-secondary">@publisher.Reviews.Count()</span></h5>
+        <br />
+        <div class="nav-item">
+            <a href="Publishers/Details/@publisher.Id">Publisher profile</a>
+        </div>
+        <br />
+    </div>
+</div>

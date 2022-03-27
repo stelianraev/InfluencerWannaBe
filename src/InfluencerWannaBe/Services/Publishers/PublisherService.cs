@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using InfluencerWannaBe.Data;
+    using InfluencerWannaBe.Data.Models;
 
     public class PublisherService : IPublisherService
     {
@@ -20,6 +21,9 @@
                 .Publishers
                 .Where(d => d.UserId == userId)
                 .Select(d => d.Id)
-                .FirstOrDefault();
+                .FirstOrDefault();                  
+
+        public Publisher GetPublisher(string id)
+         => this.data.Publishers.FirstOrDefault(x => x.UserId == id);
     }
 }
