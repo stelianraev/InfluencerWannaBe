@@ -1,6 +1,7 @@
 ﻿namespace InfluencerWannaBe.Data.Models
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
 
     public class Offer
@@ -33,7 +34,7 @@
 
         public bool IsPossibleToSignIn { get; set; }
 
-        public IEnumerable<Publisher> Publishers { get; set; } = new List<Publisher>();
-        public IEnumerable<Influencer> SignUpInfluencers { get; set; } = new List<Influencer>();
+        public ICollection<Publisher> Publishers { get; set; } = new List<Publisher>();
+        public ICollection<Influencer> SignUpInfluencers { get; set; } = new List<Influencer>();
     }
 }

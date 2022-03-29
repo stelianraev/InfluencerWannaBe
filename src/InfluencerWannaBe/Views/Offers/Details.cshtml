@@ -1,8 +1,13 @@
 ﻿@model OfferViewModel
 
 @using InfluencerWannaBe.Services.Publisher
+@using InfluencerWannaBe.Services.Influencers
+@using InfluencerWannaBe.Services.Offers
+
 
 @inject IPublisherService publishers
+@inject IInfluencerService influencers
+@inject IOfferService offers
 
 <div class="row mb-5">
     <div class="card mb-3" style="width: 18rem;">
@@ -25,13 +30,27 @@
             <br />
         }
         @{
+            //var isInfluencer = influencers.IsInfluencer(this.User.GetId());
+            var influencer = this.influencers.GetInfluencer(this.User.GetId());
+            var influencerOffers = this.influencers.InfluencerOffers(influencer).ToList();
+            var offer = this.offers.GetOffer(Model.Id);
+
+            if (influencer != null && !influencerOffers.Contains(offer))
+            {                
+                    //<input type="button" class="btn btn-success" value="SignUp" onclick="location.href='@Url.Action("SignUp", "Offers", Model.Id)'" />
+                    <a asp-controller="Offers" asp-action="SignUp" asp-route-id="@Model.Id" class="btn btn-success">SignUp</a>
+                    <br />
+            }
+        }
+        @{
             var publisher = publishers.GetPublisher(this.User.GetId());
+            var offers = publishers.GetPublisherOffers(publisher.Id);
         }
         <h3>Publisher</h3>
         <br />
         <h5>Username: <span class="badge badge-secondary">@publisher.Username</span></h5>
         <br />
-        <h5>Offers Count: <span class="badge badge-secondary">@publisher.Offers.Count()</span></h5>
+        <h5>Offers Count: <span class="badge badge-secondary">@offers.Count()</span></h5>
         <br />
         <h5>Reviews Count: <span class="badge badge-secondary">@publisher.Reviews.Count()</span></h5>
         <br />

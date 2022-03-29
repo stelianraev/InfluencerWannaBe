@@ -57,7 +57,7 @@ namespace InfluencerWannaBe.Data.Models
         //if the you have more profiles in different platforms tobe possible to describe it
         [MaxLength(DataConstants.DescriptionMaxLength)]
         public string AnotherLinks { get; set; }
-        public List<Offer> Offers { get; init; } = new List<Offer>();
-        public List<Review> Reviews { get; init; } = new List<Review>();
+        public ICollection<Offer> Offers { get; set; } = new List<Offer>();
+        public ICollection<Review> Reviews { get; init; } = new List<Review>();
     }
 }

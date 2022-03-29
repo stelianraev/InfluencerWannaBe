@@ -1,5 +1,6 @@
 ﻿namespace InfluencerWannaBe.Services.Publisher
 {
+    using System.Collections.Generic;
     using System.Linq;
     using InfluencerWannaBe.Data;
     using InfluencerWannaBe.Data.Models;
@@ -25,5 +26,8 @@
 
         public Publisher GetPublisher(string id)
          => this.data.Publishers.FirstOrDefault(x => x.UserId == id);
+
+        public IEnumerable<Offer> GetPublisherOffers(int id)
+        => this.data.Offers.Where(x => x.PublisherId == id).ToList();
     }
 }

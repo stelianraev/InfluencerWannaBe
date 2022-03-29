@@ -56,8 +56,8 @@
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-        public List<Offer> SignUpOffers { get; init; } = new List<Offer>();
-        public List<Review> Reviews { get; init; } = new List<Review>();
+        public ICollection<Offer> SignUpOffers { get; init; } = new List<Offer>();
+        public ICollection<Review> Reviews { get; init; } = new List<Review>();
         public string UserId { get; set; }
     }
 }

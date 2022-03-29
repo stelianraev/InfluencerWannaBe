@@ -1,5 +1,6 @@
 ﻿namespace InfluencerWannaBe.Services.Influencers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using InfluencerWannaBe.Data;
     using InfluencerWannaBe.Data.Models;
@@ -28,5 +29,7 @@
                    .Influencers
                    .FirstOrDefault(x => x.UserId == id);
 
+        public IEnumerable<Offer> InfluencerOffers(Influencer influencer)
+        => this.data.Offers.Where(x => x.SignUpInfluencers.Contains(influencer)).ToList();
     }
 }

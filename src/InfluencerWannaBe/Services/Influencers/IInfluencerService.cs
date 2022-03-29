@@ -1,4 +1,5 @@
 ﻿using InfluencerWannaBe.Data.Models;
+using System.Collections.Generic;
 
 namespace InfluencerWannaBe.Services.Influencers
 {
@@ -9,5 +10,7 @@ namespace InfluencerWannaBe.Services.Influencers
         Influencer GetInfluencer(string id);
 
         int IdByUser(string userId);
+
+        IEnumerable<Offer> InfluencerOffers(Influencer influencer);
     }
 }

@@ -92,9 +92,22 @@
         {
             var publisher = this.publisherService.IsPublisher(this.User.GetId());
 
-            if (photo == null || photo.Length > 5 * 1024 * 1024)
+           byte[] imageBytes = null;
+            if (photo != null)
             {
-                this.ModelState.AddModelError("Photo", "Image is too big. Max size is 5MB");
+                if (photo.Length > 5 * 1024 * 1024)
+                {
+                    this.ModelState.AddModelError("Photo", "Image is too big. Max size is 5MB");
+                }
+
+                var imageInMemory = new MemoryStream();
+                photo.CopyTo(imageInMemory);
+                imageBytes = imageInMemory.ToArray();
+            }
+            else
+            {
+                var file = Path.GetFullPath(@"wwwroot\pics\noimage.jpg");
+                imageBytes = System.IO.File.ReadAllBytes(file);                
             }
 
             if (!this.data.Countries.Any(x => x.Id == offer.CountryId))
@@ -112,10 +125,6 @@
                 return View(offer);
             }
 
-            var imageInMemory = new MemoryStream();
-            photo.CopyTo(imageInMemory);
-            var imageBytes = imageInMemory.ToArray();
-
             var offerData = new Offer
             {
                 Title = offer.Title,
@@ -123,13 +132,14 @@
                 Description = offer.Description,
                 Photo = imageBytes,
                 Requirents = offer.Requirements,
-                OwnerId = User.GetId()
+                OwnerId = User.GetId(),
+                IsPossibleToSignIn = true
             };
 
             this.data.Offers.Add(offerData);
             var offerOwner = this.data.Publishers.FirstOrDefault(x => x.UserId == offerData.OwnerId);
             offerOwner.Offers.Add(offerData);
-            this.data.Publishers.Update(offerOwner);
+            //this.data.Publishers.Update(offerOwner);
             this.data.SaveChanges();
 
             return RedirectToAction(nameof(Offers));
@@ -142,6 +152,7 @@
                 .Where(x => x.Id == id)
                 .Select(x => new OfferViewModel
                 {
+                    Id = x.Id,
                     Title = x.Title,
                     CountryId = x.CountryId,
                     Requirements = x.Requirents,
@@ -152,6 +163,17 @@
                 .FirstOrDefault();
 
             return this.View(selected);
+        }
+
+        public IActionResult SignUp(int id)
+        {
+                var influencer = this.data.Influencers.FirstOrDefault(x => x.UserId == this.User.GetId());
+                this.data.Offers.FirstOrDefault(x => x.Id == id).SignUpInfluencers.Add(influencer);
+                //influencer.SignUpOffers.Add(this.data.Offers.FirstOrDefault(x => x.Id == id));
+                this.data.Influencers.Update(influencer);
+                this.data.SaveChanges();
+
+            return RedirectToAction(nameof(Offers));
         }
     }
 }

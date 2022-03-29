@@ -1,5 +1,8 @@
 ﻿@model PublisherViewModel
-    
+
+@using InfluencerWannaBe.Services.Publisher
+@inject IPublisherService publishers
+
 <div class="row mb-5">
     <div class="card mb-3" style="width: 18rem;">
         <img class="card-img-top" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Photo))"><img />
@@ -71,5 +74,25 @@
             </div>
             <br />
         }
+        @{
+            var publisher = publishers.GetPublisher(this.User.GetId());
+            var publisherOffers = publishers.GetPublisherOffers(publisher.Id);
+
+            if (publisherOffers != null)
+            {
+                <div class="nav-item">
+                    <input type='button' value='User offers' onclick='redirectPage()' />
+                </div>
+
+                <script>
+                    function redirectPage() {
+                         @Html.ActionLink("Link to Index action of Home controller with id=5 and name=SearchTerms",
+                 "Offers", "Offers",
+                 new { id = publisher.Id, name = "Searchterms" })                       
+                    }
+                </script>              
+
+            }
+        }
     </div>
- </div>
+</div>
