@@ -55,16 +55,16 @@
 <div class="row">
     <div class="col-md-6">
         <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
-           asp-controller="Influencers"
-           asp-action="Influencers"
+           asp-controller="Publishers"
+           asp-action="Publishers"
            asp-route-currentPage="@(previusPage)"
            asp-route-searchTerm="@Model.SearchTerm"
            asp-route-sorting="@((int)Model.Sorting)">Previous</a>
     </div>
     <div class="col-md-6">
         <a class="btn btn-primary float-lg-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
-           asp-controller="Influencers"
-           asp-action="Influencers"
+           asp-controller="Publishers"
+           asp-action="Publishers"
            asp-route-currentPage="@(Model.CurrentPage + 1)"
            asp-route-searchTerm="@Model.SearchTerm"
            asp-route-sorting="@((int)Model.Sorting)">Next</a>

@@ -129,6 +129,8 @@
 
                     <input class="btn btn-primary" type="submit" value="Save" />
                 </form>
+                @if (userIsInfluencer)
+                {
 
                 <script type="text/javascript">
                         function autoFill() {
@@ -146,10 +148,10 @@
                             document.getElementById('youtube').value = "@influencer.YouTubeUrl";
                             document.getElementById('tiktok').value = "@influencer.TikTokUrl";
                             document.getElementById('phonenumber').value = "@influencer.PhoneNumber";
-                            //document.getElementById('photo').src = "data:image/png;base64," + "@influencer.Photo";
-                        }
+                            //document.getElementById('photo').src = "data:image/png;base64," + "@influencer.Photo";                        
                 </script>
-            }
+                    }
+                }
         </div>
     </div>
 </div>

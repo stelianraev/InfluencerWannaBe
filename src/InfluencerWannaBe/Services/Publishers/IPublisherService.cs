@@ -9,7 +9,8 @@
 
         public int IdByUser(string userId);
 
-        public Data.Models.Publisher GetPublisher(string Id);
+        public Publisher GetPublisher(string id);
+        public Publisher GetPublisher(int id);
 
         public IEnumerable<Offer> GetPublisherOffers(int id);
     }

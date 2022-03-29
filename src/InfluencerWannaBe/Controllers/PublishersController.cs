@@ -193,9 +193,10 @@ namespace InfluencerWannaBe.Controllers
         public IActionResult Details(int id)
         {
             var selected = this.data.Publishers
-                .Where(x => x.Id == id)
+                .Where(p => p.Id == id)
                 .Select(x => new PublisherViewModel
                 {
+                    Id = x.Id,
                     Photo = x.Photo,
                     Username = x.Username,
                     FacebookUrl = x.FacebookUrl,
@@ -203,7 +204,8 @@ namespace InfluencerWannaBe.Controllers
                     TwitterUrl = x.TwitterUrl,
                     CountryName = x.Country.Name,
                     Gender = x.Gender.Name,
-                    Email = x.Email
+                    Email = x.Email,
+                    Offers = this.data.Offers.Where(x => x.PublisherId == id).ToList()
                 })
                 .FirstOrDefault();
 

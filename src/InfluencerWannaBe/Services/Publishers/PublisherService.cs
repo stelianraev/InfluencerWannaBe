@@ -27,6 +27,9 @@
         public Publisher GetPublisher(string id)
          => this.data.Publishers.FirstOrDefault(x => x.UserId == id);
 
+        public Publisher GetPublisher(int id)
+        => this.data.Publishers.FirstOrDefault(x => x.Id == id);
+
         public IEnumerable<Offer> GetPublisherOffers(int id)
         => this.data.Offers.Where(x => x.PublisherId == id).ToList();
     }

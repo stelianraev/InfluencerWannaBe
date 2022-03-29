@@ -75,23 +75,16 @@
             <br />
         }
         @{
-            var publisher = publishers.GetPublisher(this.User.GetId());
+            var publisher = publishers.GetPublisher(Model.Id);
             var publisherOffers = publishers.GetPublisherOffers(publisher.Id);
 
-            if (publisherOffers != null)
+            if (publisherOffers.Count() != 0)
             {
                 <div class="nav-item">
-                    <input type='button' value='User offers' onclick='redirectPage()' />
-                </div>
-
-                <script>
-                    function redirectPage() {
-                         @Html.ActionLink("Link to Index action of Home controller with id=5 and name=SearchTerms",
-                 "Offers", "Offers",
-                 new { id = publisher.Id, name = "Searchterms" })                       
-                    }
-                </script>              
-
+                    @*<a href="Offers/Offers">User Offers <span class="badge">@Model.Offers.Count()</span></a><br>*@
+                    <button type="button" class="btn btn-primary">User Offers <span class="badge">@Model.Offers.Count()</span></button>
+                    <a asp-controller="Offers" asp-action="Offers" asp-route-id="@publisher.Id" class="btn btn-success">test</a>
+                </div>             
             }
         }
     </div>

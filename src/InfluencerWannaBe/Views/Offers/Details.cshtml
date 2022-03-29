@@ -55,7 +55,7 @@
         <h5>Reviews Count: <span class="badge badge-secondary">@publisher.Reviews.Count()</span></h5>
         <br />
         <div class="nav-item">
-            <a href="Publishers/Details/@publisher.Id">Publisher profile</a>
+            <a asp-controller="Publishers" asp-action="Details" asp-route-id="@publisher.Id" class="btn btn-success">Publisher profile</a>
         </div>
         <br />
     </div>

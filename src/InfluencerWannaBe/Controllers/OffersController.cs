@@ -26,9 +26,14 @@
         }
 
         [Authorize]
-        public IActionResult Offers([FromQuery] AllOffersQueryModel query)
+        public IActionResult Offers([FromQuery] AllOffersQueryModel query, int id)
         {
             var offersQuery = this.data.Offers.AsQueryable();
+
+            if (id != 0) 
+            {
+               offersQuery = this.data.Offers.Where(x => x.PublisherId == id).AsQueryable();
+            }          
 
             if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {

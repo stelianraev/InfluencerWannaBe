@@ -13,6 +13,8 @@
     using InfluencerWannaBe.Models.Influencers;
     using InfluencerWannaBe.Services;
     using InfluencerWannaBe.Services.Influencers;
+    using InfluencerWannaBe.Models;
+    using Microsoft.AspNetCore.Identity;
 
     public class InfluencersController : Controller
     {
@@ -101,8 +103,8 @@
                 Photo = imageBytes,
                 WebSiteUrl = influencer.WebSiteUrl,
                 UserId = User.GetId()
-            };
-
+            };            
+            
             this.data.Influencers.Add(influencerData);
             this.data.SaveChanges();
 

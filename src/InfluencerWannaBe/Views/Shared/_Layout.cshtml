@@ -16,11 +16,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-@if (SignInManager.IsSignedIn(User))
-{
-    var userId = User.GetId();
-    var userIsInfluencer = Influencers.IsInfluencer(userId);
-    var userIsPublisher = Publishers.IsPublisher(userId);
 
 <body>
     <header>
@@ -39,9 +34,15 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" asp-controller="Influencers" asp-action="Influencers">All</a>
-                                @if (!userIsInfluencer)
+                                @if (SignInManager.IsSignedIn(User))
                                 {
-                                    <a class="dropdown-item" asp-controller="Influencers" asp-action="AddAccaunt">Become Influencer</a>
+                                    var userId = User.GetId();
+                                    var userIsInfluencer = Influencers.IsInfluencer(userId);                                   
+
+                                    if (!userIsInfluencer)
+                                    {
+                                        <a class="dropdown-item" asp-controller="Influencers" asp-action="AddAccaunt">Become Influencer</a>
+                                    }
                                 }
                             </div>
                         </li>
@@ -60,9 +61,14 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" asp-controller="Publishers" asp-action="Publishers">All</a>
-                                @if (!userIsPublisher)
+                                @if (SignInManager.IsSignedIn(User))
                                 {
-                                    <a class="dropdown-item" asp-controller="Publishers" asp-action="BecomePublisher">Become Publisher</a>
+                                    var userId = User.GetId();                                    
+                                    var userIsPublisher = Publishers.IsPublisher(userId);
+                                    @if (!userIsPublisher)
+                                    {
+                                        <a class="dropdown-item" asp-controller="Publishers" asp-action="BecomePublisher">Become Publisher</a>
+                                    }
                                 }
                             </div>
                         </li>
