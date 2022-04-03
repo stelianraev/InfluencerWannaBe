@@ -1,18 +1,18 @@
-﻿using InfluencerWannaBe.Data;
-using InfluencerWannaBe.Data.Models;
-using InfluencerWannaBe.Infrastructure;
-using InfluencerWannaBe.Models.Publishers;
-using InfluencerWannaBe.Services;
-using InfluencerWannaBe.Services.Influencers;
-using InfluencerWannaBe.Services.Publisher;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.IO;
-using System.Linq;
-
-namespace InfluencerWannaBe.Controllers
+﻿namespace InfluencerWannaBe.Controllers
 {
+    using System.IO;
+    using System.Linq;
+    using InfluencerWannaBe.Data;
+    using InfluencerWannaBe.Data.Models;
+    using InfluencerWannaBe.Infrastructure;
+    using InfluencerWannaBe.Models.Publishers;
+    using InfluencerWannaBe.Services;
+    using InfluencerWannaBe.Services.Influencers;
+    using InfluencerWannaBe.Services.Publisher;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+
     public class PublishersController : Controller
     {
         private readonly IPublisherService publishers;
@@ -44,34 +44,7 @@ namespace InfluencerWannaBe.Controllers
         {
             var influencerId = this.influencers.IdByUser(this.User.GetId());
             publisher.Email = User.GetEmail();
-            //if (influencerId != 0)
-            //{
-            //    var influencer = this.data.Influencers.Where(x => x.Id == influencerId).FirstOrDefault();
-
-            //    var pub = new Publisher
-            //    {
-            //        FirstName = influencer.FirstName,
-            //        MiddleName = influencer.MiddleName,
-            //        LastName = influencer.LastName,
-            //        GenderId = influencer.GenderId,
-            //        Username = influencer.Username,
-            //        CountryId = influencer.CountryId,
-            //        Description = influencer.Description,
-            //        Email = User.GetEmail(),
-            //        PhoneNumber = influencer.PhoneNumber,
-            //        InstagramUrl = influencer.InstagramUrl,
-            //        FacebookUrl = influencer.FacebookUrl,
-            //        TwitterUrl = influencer.TwitterUrl,
-            //        YouTubeUrl = influencer.YouTubeUrl,
-            //        TikTokUrl = influencer.TikTokUrl,
-            //        Photo = influencer.Photo,
-            //        WebsiteUrl = influencer.WebSiteUrl,
-            //        UserId = User.GetId()
-            //    };
-
-            //    return RedirectToAction("BecomePublisher", "Publishers", new { area = "" });
-            //}
-
+            
             var publisherId = this.publishers.IdByUser(this.User.GetId());
             byte[] imageBytes = null;
             if (photo != null)

@@ -1,7 +1,6 @@
 ﻿namespace InfluencerWannaBe.Data.Models
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
 
     public class Offer
@@ -23,7 +22,7 @@
         [Range(0, double.MaxValue)]
         public double Payment { get; set; }
             
-        public int CountryId { get; init; }
+        public int CountryId { get; set; }
         public Country Country { get; init; }
 
         public byte[] Photo { get; set; }

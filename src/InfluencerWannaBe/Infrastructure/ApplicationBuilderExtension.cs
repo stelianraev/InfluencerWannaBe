@@ -11,6 +11,9 @@
     using Newtonsoft.Json;
     using System.Collections.Generic;
     using InfluencerWannaBe.Data.Models;
+    using System;
+    using Microsoft.AspNetCore.Identity;
+    using System.Threading.Tasks;
 
     public static class ApplicationBuilderExtension
     {

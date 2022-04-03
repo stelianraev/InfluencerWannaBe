@@ -4,6 +4,7 @@
     {
         public int Id { get; init; }
         public string Title { get; init; }
+        public int PublisherId { get; init; }
         public string PublisherUserName { get; init; }
         public double Payment { get; init; }
         public string Country { get; init; }

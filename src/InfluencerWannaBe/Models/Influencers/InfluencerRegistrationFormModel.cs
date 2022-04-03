@@ -51,7 +51,7 @@
         public string Description { get; init; }
         public byte Photo { get; init; }
 
-        [Required]
+        //[Required]
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
         public int CountryId { get; init; }

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<OffersListingViewModel>
+@using InfluencerWannaBe.Services.Publisher
+@using InfluencerWannaBe.Services.Influencers
+@using InfluencerWannaBe.Services.Offers
+
+
+@inject IPublisherService publishers
+@inject IInfluencerService influencers
+@inject IOfferService offers
+
+@{
+    if (publishers.IsPublisher(this.User.GetId()))
+    {
+        @if (!Model.Any())
+        {
+            <h2 class="text-center">You do not have any published offers yes!</h2>
+        }
+        else
+        {
+            <partial name="_OffersListing" model="@Model" />
+        }
+    }
+    if (influencers.IsInfluencer(this.User.GetId()))
+    {
+
+        @if (!Model.Any())
+        {
+            <h2 class="text-center">You are not assign to any offer yet!</h2>
+        }
+        else
+        {
+            <partial name="_OffersListing" model="@Model" />
+        }
+    }
+}
+

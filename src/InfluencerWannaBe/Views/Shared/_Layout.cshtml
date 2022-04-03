@@ -37,7 +37,7 @@
                                 @if (SignInManager.IsSignedIn(User))
                                 {
                                     var userId = User.GetId();
-                                    var userIsInfluencer = Influencers.IsInfluencer(userId);                                   
+                                    var userIsInfluencer = Influencers.IsInfluencer(userId);
 
                                     if (!userIsInfluencer)
                                     {
@@ -51,7 +51,7 @@
                                 Offers
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" asp-controller="Offers" asp-action="Offers">All</a>                               
+                                <a class="dropdown-item" asp-controller="Offers" asp-action="Offers">All</a>
                                 <a class="dropdown-item" asp-controller="Offers" asp-action="AddOffer">Add offer</a>
                             </div>
                         </li>
@@ -63,7 +63,7 @@
                                 <a class="dropdown-item" asp-controller="Publishers" asp-action="Publishers">All</a>
                                 @if (SignInManager.IsSignedIn(User))
                                 {
-                                    var userId = User.GetId();                                    
+                                    var userId = User.GetId();
                                     var userIsPublisher = Publishers.IsPublisher(userId);
                                     @if (!userIsPublisher)
                                     {
@@ -71,7 +71,7 @@
                                     }
                                 }
                             </div>
-                        </li>
+                        </li>                       
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

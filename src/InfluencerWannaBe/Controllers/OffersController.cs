@@ -5,10 +5,12 @@
     using InfluencerWannaBe.Infrastructure;
     using InfluencerWannaBe.Models.Offers;
     using InfluencerWannaBe.Services;
+    using InfluencerWannaBe.Services.Offers;
     using InfluencerWannaBe.Services.Publisher;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
@@ -17,11 +19,13 @@
         private readonly InfluencerWannaBeDbContext data;
         private readonly IPublisherService publisherService;
         private readonly IGetCollection getCollection;
+        private readonly IOfferService offerService;
 
-        public OffersController(InfluencerWannaBeDbContext data, IPublisherService publisherService, IGetCollection getCollection)
+        public OffersController(InfluencerWannaBeDbContext data, IPublisherService publisherService, IGetCollection getCollection, IOfferService offerService)
         {
             this.data = data;
             this.getCollection = getCollection;
+            this.offerService = offerService;
             this.publisherService = publisherService;
         }
 
@@ -73,6 +77,91 @@
             query.Offers = offers;
 
             return this.View(query);
+        }
+
+        [Authorize]
+        public IActionResult Mine()
+        {
+            ICollection<OffersListingViewModel> list = this.offerService.OffersByUser(this.User.GetId());
+            return this.View(list);
+        }
+
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            this.offerService.DeleteOfferById(id);
+            return RedirectToAction(nameof(Mine));
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Edit(OffersRegistrationFormModel offer, IFormFile photo, int id)
+        {
+           var selectedOffer = this.offerService.GetOffer(id);
+
+            if (photo != null)
+            {
+                if (photo.Length > 5 * 1024 * 1024)
+                {
+                    this.ModelState.AddModelError("Photo", "Image is too big. Max size is 5MB");
+                }
+
+                var imageInMemory = new MemoryStream();
+                photo.CopyTo(imageInMemory);
+                var imageBytes = imageInMemory.ToArray();
+                offer.Photo = imageBytes;
+            }
+
+            if (!this.data.Countries.Any(x => x.Id == offer.CountryId))
+            {
+                this.ModelState.AddModelError(nameof(offer.CountryId), "Country do not exist");
+            }
+            if (!this.data.Countries.Any(x => x.Id == offer.CountryId))
+            {
+                this.ModelState.AddModelError(nameof(offer.CountryId), "Country do not exist");
+            }
+            if (!ModelState.IsValid)
+            {
+                offer.Conutries = this.getCollection.GetCountries();
+
+                return View(offer);
+            }
+
+            selectedOffer.Title = offer.Title;
+            selectedOffer.CountryId = offer.CountryId;
+            selectedOffer.Description = offer.Description;
+            selectedOffer.Requirents = offer.Requirements;
+            selectedOffer.OwnerId = User.GetId();
+            selectedOffer.Payment = offer.Payment;
+            selectedOffer.IsPossibleToSignIn = true;
+
+            //var offerOwner = this.data.Publishers.FirstOrDefault(x => x.UserId == offerData.OwnerId);
+            //offerOwner.Offers.Add(offerData);
+            //this.data.Publishers.Update(offerOwner);
+            this.data.Offers.Update(selectedOffer);
+            this.data.SaveChanges();
+
+            return RedirectToAction(nameof(Mine));
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+           var offer = this.offerService.GetOffer(id);
+            var offerReg = new OffersRegistrationFormModel()
+            {
+                Title = offer.Title,
+                CountryId = offer.CountryId,
+                Description = offer.Description,
+                Photo = offer.Photo,
+                Requirements = offer.Requirents,
+                OwnerId = offer.Id,
+                Payment = offer.Payment,
+                IsPossibleToSignIn = true,
+                Conutries = this.getCollection.GetCountries(),
+
+            };
+           return this.View(offerReg);
         }
 
         [Authorize]
@@ -138,6 +227,7 @@
                 Photo = imageBytes,
                 Requirents = offer.Requirements,
                 OwnerId = User.GetId(),
+                Payment = offer.Payment,
                 IsPossibleToSignIn = true
             };
 
@@ -163,6 +253,7 @@
                     Requirements = x.Requirents,
                     Description = x.Description,
                     CountryName = x.Country.Name,
+                    Payment = x.Payment,
                     Photo = x.Photo
                 })
                 .FirstOrDefault();

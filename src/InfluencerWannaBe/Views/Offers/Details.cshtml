@@ -29,6 +29,10 @@
             <h3>Description: <span class="badge badge-secondary">@Model.Description</span></h3>
             <br />
         }
+
+        <h3>Payment: <span class="badge badge-secondary">@Model.Payment</span></h3>
+        <br />
+
         @{
             //var isInfluencer = influencers.IsInfluencer(this.User.GetId());
             var influencer = this.influencers.GetInfluencer(this.User.GetId());
@@ -36,10 +40,10 @@
             var offer = this.offers.GetOffer(Model.Id);
 
             if (influencer != null && !influencerOffers.Contains(offer))
-            {                
-                    //<input type="button" class="btn btn-success" value="SignUp" onclick="location.href='@Url.Action("SignUp", "Offers", Model.Id)'" />
-                    <a asp-controller="Offers" asp-action="SignUp" asp-route-id="@Model.Id" class="btn btn-success">SignUp</a>
-                    <br />
+            {
+                //<input type="button" class="btn btn-success" value="SignUp" onclick="location.href='@Url.Action("SignUp", "Offers", Model.Id)'" />
+                <a asp-controller="Offers" asp-action="SignUp" asp-route-id="@Model.Id" class="btn btn-success">SignUp</a>
+                <br />
             }
         }
         @{
