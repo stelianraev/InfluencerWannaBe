@@ -25,6 +25,18 @@
                             <a asp-controller="Offers" asp-action="Delete" asp-route-id="@offer.Id" class="btn btn-primary">Delete</a>
                             <a asp-controller="Offers" asp-action="Edit" asp-route-id="@offer.Id" class="btn btn-primary">Edit</a>
                         }
+
+                        var influencer = influencers.GetInfluencer(this.User.GetId());
+                        var isInfluencer = influencers.IsInfluencer(this.User.GetId());
+                        var infOffers = influencers.InfluencerOffers(influencer);
+
+                        if (isInfluencer)
+                        {
+                         if (infOffers.Any())
+                         {
+                             <a asp-controller="Offers" asp-action="Remove" asp-route-id="@offer.Id" class="btn btn-primary">Delete</a>
+                         }
+                       }
                     }
                 </div>               
             </div>

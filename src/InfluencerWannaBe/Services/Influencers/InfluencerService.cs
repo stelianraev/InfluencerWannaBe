@@ -25,9 +25,9 @@
                 .FirstOrDefault();
 
         public Influencer GetInfluencer(string id)
-            => this.data
-                   .Influencers
-                   .FirstOrDefault(x => x.UserId == id);
+         => this.data
+                .Influencers
+                .FirstOrDefault(x => x.UserId == id);
 
         public IEnumerable<Offer> InfluencerOffers(Influencer influencer)
         => this.data.Offers.Where(x => x.SignUpInfluencers.Contains(influencer)).ToList();

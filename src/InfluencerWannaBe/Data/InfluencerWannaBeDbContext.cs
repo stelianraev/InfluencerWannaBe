@@ -18,6 +18,7 @@
         public DbSet<Offer> Offers { get; init; }
         public DbSet<Review> Reviews { get; init; }
         public DbSet<Gender> Genders { get; init; }
+        //public DbSet<InfluencerOffers> InfleuncerOffers {get; set;}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

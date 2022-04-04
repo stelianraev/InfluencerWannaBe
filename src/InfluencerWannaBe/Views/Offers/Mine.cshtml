@@ -9,7 +9,7 @@
 @inject IOfferService offers
 
 @{
-    if (publishers.IsPublisher(this.User.GetId()))
+    if (publishers.IsPublisher(this.User.GetId()) && ViewBag.Publisher == true)
     {
         @if (!Model.Any())
         {
@@ -20,7 +20,7 @@
             <partial name="_OffersListing" model="@Model" />
         }
     }
-    if (influencers.IsInfluencer(this.User.GetId()))
+    if (influencers.IsInfluencer(this.User.GetId()) && ViewBag.Influencer == true)
     {
 
         @if (!Model.Any())

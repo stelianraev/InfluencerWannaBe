@@ -109,7 +109,7 @@
                 var imageInMemory = new MemoryStream();
                 photo.CopyTo(imageInMemory);
                 var imageBytes = imageInMemory.ToArray();
-                offer.Photo = imageBytes;
+                selectedOffer.Photo = imageBytes;
             }
 
             if (!this.data.Countries.Any(x => x.Id == offer.CountryId))
@@ -162,6 +162,23 @@
 
             };
            return this.View(offerReg);
+        }
+
+        [Authorize]
+        public IActionResult Remove(int id)
+        {
+            var offer = this.offerService.GetOffer(id);
+
+            var influencer = this.data
+                .Influencers
+                .FirstOrDefault(x => x.UserId == this.User.GetId());
+
+            influencer.SignUpOffers.Remove(offer);
+            offer.SignUpInfluencers.Remove(influencer);
+
+            this.data.SaveChanges();
+
+            return RedirectToAction(nameof(Mine));
         }
 
         [Authorize]
