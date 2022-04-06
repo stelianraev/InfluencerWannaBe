@@ -29,7 +29,10 @@
                 .Influencers
                 .FirstOrDefault(x => x.UserId == id);
 
-        public IEnumerable<Offer> InfluencerOffers(Influencer influencer)
-        => this.data.Offers.Where(x => x.SignUpInfluencers.Contains(influencer)).ToList();
+        public InfluencerOffers GetInfluencerOffer(Influencer influencer)
+        => this.data.InfleuncerOffers.FirstOrDefault(x => x.InfluencerId == influencer.Id);
+
+        public IEnumerable<Offer> InfluencerOffers(InfluencerOffers influencerOffers)
+        => this.data.Offers.Where(x => x.SignUpInfluencers.Contains(influencerOffers)).ToList();
     }
 }

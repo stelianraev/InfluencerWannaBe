@@ -18,23 +18,25 @@
                     <h5 class="card-title text-center">@offer.Title @offer.PublisherUserName @offer.Payment @offer.Country</h5>
                     <a asp-controller="Offers" asp-action="Details" asp-route-id="@offer.Id" class="btn btn-primary">Details</a>
                     @{
-                        var publisher = publishers.GetPublisher(this.User.GetId());
+                        var publisher = publishers.GetPublisher(offer.PublisherId);
 
-                        if (offer.PublisherId == publisher.Id)
+                        if (offer.OwnerId == this.User.GetId())
                         {
                             <a asp-controller="Offers" asp-action="Delete" asp-route-id="@offer.Id" class="btn btn-primary">Delete</a>
-                            <a asp-controller="Offers" asp-action="Edit" asp-route-id="@offer.Id" class="btn btn-primary">Edit</a>
+                            <a asp-controller="Offers" asp-action="Edit" asp-route-id="@offer.Id" class="btn btn-primary">Edit</a>                            
+                            <a asp-controller="Publishers" asp-action="AsignedInfluencers" asp-route-id="@offer.Id" class="btn btn-primary">Assigned Influencers</a>                            
                         }
 
                         var influencer = influencers.GetInfluencer(this.User.GetId());
                         var isInfluencer = influencers.IsInfluencer(this.User.GetId());
-                        var infOffers = influencers.InfluencerOffers(influencer);
+                        var infOffer = influencers.GetInfluencerOffer(influencer);
+                        var infOffers = influencers.InfluencerOffers(infOffer);
 
                         if (isInfluencer)
                         {
-                         if (infOffers.Any())
+                         if (offer.Influencers.Contains(infOffer))
                          {
-                             <a asp-controller="Offers" asp-action="Remove" asp-route-id="@offer.Id" class="btn btn-primary">Delete</a>
+                             <a asp-controller="Offers" asp-action="Remove" asp-route-id="@offer.Id" class="btn btn-primary">Remove</a>
                          }
                        }
                     }

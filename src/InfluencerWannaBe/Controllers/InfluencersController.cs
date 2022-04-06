@@ -15,18 +15,21 @@
     using InfluencerWannaBe.Services.Influencers;
     using InfluencerWannaBe.Models;
     using Microsoft.AspNetCore.Identity;
+    using InfluencerWannaBe.Services.Offers;
 
     public class InfluencersController : Controller
     {
         private readonly InfluencerWannaBeDbContext data;
         private readonly IInfluencerService influencers;
         private readonly IGetCollection getCollection;
+        private readonly IOfferService offerService;
 
-        public InfluencersController(InfluencerWannaBeDbContext data, IInfluencerService influencers, IGetCollection getCollection)
+        public InfluencersController(InfluencerWannaBeDbContext data, IInfluencerService influencers, IGetCollection getCollection, IOfferService offerService)
         {
             this.influencers = influencers;
             this.data = data;
             this.getCollection = getCollection;
+            this.offerService = offerService;
         }
 
         [Authorize]
@@ -174,6 +177,12 @@
                 .FirstOrDefault();
                 
             return this.View(selected);
+        }
+
+        public IActionResult SignInOffers()
+        {
+            var offers = this.offerService.OffersBySignInInfluencer(this.User.GetId());
+            return this.View(offers);
         }
     }
 }

@@ -8,10 +8,12 @@
     {
         Offer GetOffer(int id);
 
-        void AddOfferToInfluencer(int id, Offer offer);
+        void AddOfferToInfluencer(int id, InfluencerOffers offer);
         public void DeleteOfferById(int id);
 
-        ICollection<OffersListingViewModel> OffersByUser(string id);
+        public ICollection<OffersListingViewModel> OffersByUser(string id);
+
+        public ICollection<OffersListingViewModel> OffersBySignInInfluencer(string id);
 
     }
 }

@@ -82,8 +82,7 @@
             {
                 <div class="nav-item">
                     @*<a href="Offers/Offers">User Offers <span class="badge">@Model.Offers.Count()</span></a><br>*@
-                    <button type="button" class="btn btn-primary">User Offers <span class="badge">@Model.Offers.Count()</span></button>
-                    <a asp-controller="Offers" asp-action="Offers" asp-route-id="@publisher.Id" class="btn btn-success">test</a>
+                    <a asp-controller="Offers" asp-action="Offers" asp-route-id="@publisher.Id" class="btn btn-success">Publisher offers</a>
                 </div>             
             }
         }

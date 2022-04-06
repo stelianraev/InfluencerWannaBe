@@ -18,7 +18,7 @@
         public DbSet<Offer> Offers { get; init; }
         public DbSet<Review> Reviews { get; init; }
         public DbSet<Gender> Genders { get; init; }
-        //public DbSet<InfluencerOffers> InfleuncerOffers {get; set;}
+        public DbSet<InfluencerOffers> InfleuncerOffers {get; init;}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -54,10 +54,16 @@
                 .HasForeignKey(x => x.PublisherId);
 
             builder
-                .Entity<Influencer>()
-                .HasMany(i => i.SignUpOffers)
-                .WithMany(o => o.SignUpInfluencers)
-                .UsingEntity(x => x.ToTable("InfluencerOffers"));
+                .Entity<InfluencerOffers>()
+                .HasOne(x => x.Influencer)
+                .WithMany(o => o.SignUpOffers)
+                .HasForeignKey(x => x.InfluencerId);
+
+            builder
+               .Entity<InfluencerOffers>()
+               .HasOne(x => x.Offer)
+               .WithMany(i => i.SignUpInfluencers)
+               .HasForeignKey(x => x.OfferId);
 
             builder
                 .Entity<Influencer>()

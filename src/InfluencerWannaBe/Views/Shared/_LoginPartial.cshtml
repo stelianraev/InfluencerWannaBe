@@ -24,11 +24,11 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 @if (userIsPublisher)
                 {
-                    <a class="dropdown-item" asp-controller="Offers" asp-action="Mine">Published Offers</a>
+                    <a class="dropdown-item" asp-controller="Publishers" asp-action="PublisherOffer">Published Offers</a>
                 }
                 @if (userIsInfluencer)
                 {
-                    <a class="dropdown-item" asp-controller="Offers" asp-action="Mine">SignIn Offers</a>
+                    <a class="dropdown-item" asp-controller="Influencers" asp-action="SignInOffers">SignIn Offers</a>
                 }
                 else
                 {

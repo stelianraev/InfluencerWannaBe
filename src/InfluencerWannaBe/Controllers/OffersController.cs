@@ -44,7 +44,7 @@
                 offersQuery = offersQuery.Where(i =>
                    i.Title.ToLower().Contains(query.SearchTerm.ToLower()) ||
                    i.Publisher.Username.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                   i.SignUpInfluencers.Any(x => x.Username == query.SearchTerm.ToLower()));
+                   i.SignUpInfluencers.Any(x => x.Influencer.Username == query.SearchTerm.ToLower()));
             }
 
             offersQuery = query.Sorting switch
@@ -69,7 +69,8 @@
                     Payment = i.Payment,
                     PublisherUserName = i.Publisher.Username,
                     Country = i.Country.Name,
-                    Photo = i.Photo
+                    Photo = i.Photo,
+                    Influencers = i.SignUpInfluencers,
                 })
                 .ToList();
 
@@ -79,18 +80,12 @@
             return this.View(query);
         }
 
-        [Authorize]
-        public IActionResult Mine()
-        {
-            ICollection<OffersListingViewModel> list = this.offerService.OffersByUser(this.User.GetId());
-            return this.View(list);
-        }
 
         [Authorize]
         public IActionResult Delete(int id)
         {
             this.offerService.DeleteOfferById(id);
-            return RedirectToAction(nameof(Mine));
+            return RedirectToAction(nameof(PublishersController.PublisherOffer));
         }
 
         [Authorize]
@@ -141,7 +136,7 @@
             this.data.Offers.Update(selectedOffer);
             this.data.SaveChanges();
 
-            return RedirectToAction(nameof(Mine));
+            return RedirectToAction(nameof(PublishersController.PublisherOffer));
         }
 
         [Authorize]
@@ -173,12 +168,12 @@
                 .Influencers
                 .FirstOrDefault(x => x.UserId == this.User.GetId());
 
-            influencer.SignUpOffers.Remove(offer);
-            offer.SignUpInfluencers.Remove(influencer);
+            var influencerOffer = this.data.InfleuncerOffers.FirstOrDefault(x => x.InfluencerId == influencer.Id && x.OfferId == offer.Id);
 
+            this.data.InfleuncerOffers.Remove(influencerOffer);
             this.data.SaveChanges();
 
-            return RedirectToAction(nameof(Mine));
+            return RedirectToAction("SignInOffers", "Influencers"); //nameof(InfluencersController.SignInOffers));            
         }
 
         [Authorize]
@@ -280,11 +275,22 @@
 
         public IActionResult SignUp(int id)
         {
-                var influencer = this.data.Influencers.FirstOrDefault(x => x.UserId == this.User.GetId());
-                this.data.Offers.FirstOrDefault(x => x.Id == id).SignUpInfluencers.Add(influencer);
-                //influencer.SignUpOffers.Add(this.data.Offers.FirstOrDefault(x => x.Id == id));
-                this.data.Influencers.Update(influencer);
-                this.data.SaveChanges();
+            var influencer = this.data.Influencers.FirstOrDefault(x => x.UserId == this.User.GetId());
+            var offer = this.data.Offers.FirstOrDefault(x => x.Id == id);
+            InfluencerOffers infOff = new InfluencerOffers();
+
+            infOff.Influencer = influencer;
+            infOff.Offer = offer;
+
+            this.data.InfleuncerOffers.Add(infOff);
+
+            //offer.SignUpInfluencers.Add(influencer);
+            //influencer.SignUpOffers.Add(offer);
+
+            this.data.Influencers.Update(influencer);
+            this.data.Offers.Update(offer);
+
+            this.data.SaveChanges();
 
             return RedirectToAction(nameof(Offers));
         }

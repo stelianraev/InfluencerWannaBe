@@ -34,6 +34,6 @@
         public bool IsPossibleToSignIn { get; set; }
 
         public ICollection<Publisher> Publishers { get; set; } = new List<Publisher>();
-        public ICollection<Influencer> SignUpInfluencers { get; set; } = new List<Influencer>();
+        public ICollection<InfluencerOffers> SignUpInfluencers { get; set; } = new List<InfluencerOffers>();
     }
 }

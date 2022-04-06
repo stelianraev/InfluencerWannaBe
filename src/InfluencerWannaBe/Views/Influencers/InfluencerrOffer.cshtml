@@ -1,0 +1,10 @@
+﻿@model ICollection<OffersListingViewModel>
+
+@if (!Model.Any())
+{
+    <h3>You dont have any offers yet!</h3>
+}
+else
+{
+    <partial name="_OffersListing" model="@Model" />
+}

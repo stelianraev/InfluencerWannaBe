@@ -1,0 +1,22 @@
+﻿@model ICollection<InfluencerListingViewModel>
+
+<div class="row">
+    @if (!Model.Any())
+    {
+        <h3>The is not assigned influencers for your offer</h3>
+            }
+            @foreach (var influencer in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-3" style="width: 18rem;">
+                        <img class="card-img-top" src="data:image/jpeg;base64,@(Convert.ToBase64String(influencer.Photo))" alt="@influencer.Username @influencer.Instagram @influencer.Facebook">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-center">@influencer.Username @influencer.Instagram @influencer.Facebook</h5>
+                            <a asp-controller="Influencers" asp-action="Details" asp-route-id="@influencer.Id" class="btn btn-primary">Details</a>
+                            <a asp-controller="Publisher" asp-action="AcceptInfluencer" asp-route-id="@influencer.Id" class="btn btn-primary">Accept</a>
+                            <a asp-controller="Publisher" asp-action="DeclineInfluencer" asp-route-id="@influencer.Id" class="btn btn-primary">Decline</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>

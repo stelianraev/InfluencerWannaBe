@@ -5,9 +5,11 @@
     using InfluencerWannaBe.Data;
     using InfluencerWannaBe.Data.Models;
     using InfluencerWannaBe.Infrastructure;
+    using InfluencerWannaBe.Models.Influencers;
     using InfluencerWannaBe.Models.Publishers;
     using InfluencerWannaBe.Services;
     using InfluencerWannaBe.Services.Influencers;
+    using InfluencerWannaBe.Services.Offers;
     using InfluencerWannaBe.Services.Publisher;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -19,12 +21,14 @@
         private readonly IInfluencerService influencers;
         private readonly InfluencerWannaBeDbContext data;
         private readonly IGetCollection getCollection;
+        private readonly IOfferService offerService;
 
-        public PublishersController(InfluencerWannaBeDbContext data, IPublisherService publishers, IInfluencerService influencerService, IGetCollection getCollection)
+        public PublishersController(InfluencerWannaBeDbContext data, IPublisherService publishers, IInfluencerService influencerService, IGetCollection getCollection, IOfferService offerService)
         {
             this.data = data;
             this.publishers = publishers;
             this.getCollection = getCollection;
+            this.offerService = offerService;
             this.influencers = influencerService;
         }
 
@@ -183,6 +187,49 @@
                 .FirstOrDefault();
 
             return this.View(selected);
+        }
+
+        [Authorize]
+        public IActionResult PublisherOffer()
+        {
+            var offers = this.offerService.OffersByUser(this.User.GetId());
+            return this.View(offers);
+        }
+
+        [Authorize]
+        public IActionResult AsignedInfluencers(int id)
+        {
+            var influencers = this.data.InfleuncerOffers
+                .Where(x => x.OfferId == id)
+                .Select(x => new InfluencerListingViewModel
+                {
+                   Id = x.Id,
+                   Photo = x.Influencer.Photo,
+                   Facebook = x.Influencer.FacebookUrl,
+                   Instagram = x.Influencer.InstagramUrl,
+                   Username = x.Influencer.Username
+                })
+                .ToList();
+            
+            return this.View(influencers);
+        }
+
+        [Authorize]
+        public IActionResult AcceptInfluencer(int id)
+        {
+            var influencerOffer = this.data.InfleuncerOffers.FirstOrDefault(x => x.InfluencerId == id);
+            influencerOffer.AcceptedForTheOffer = true;
+
+            return RedirectToAction("AsignedInfluencers", "Publishers");
+        }
+
+        [Authorize]
+        public IActionResult DeclineInfluencer(int id)
+        {
+            var influencerOffer = this.data.InfleuncerOffers.FirstOrDefault(x => x.InfluencerId == id);
+            influencerOffer.AcceptedForTheOffer = false;
+
+            return RedirectToAction("AsignedInfluencers", "Publishers");
         }
     }
 }
