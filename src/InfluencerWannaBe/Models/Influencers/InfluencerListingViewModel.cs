@@ -9,5 +9,6 @@
         public string Facebook { get; init; }
         public string Instagram { get; init; }
         public byte[] Photo { get; init; }
+        public bool? AcceptedForTheOffer { get; init; }
     }
 }

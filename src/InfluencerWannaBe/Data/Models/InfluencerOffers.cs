@@ -9,6 +9,6 @@
         public int OfferId { get; init; }
         public Offer Offer { get; set; }
 
-        public bool AcceptedForTheOffer { get; set; }
+        public bool? AcceptedForTheOffer { get; set; } = null;
     }
 }

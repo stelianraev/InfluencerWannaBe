@@ -12,9 +12,20 @@
                         <img class="card-img-top" src="data:image/jpeg;base64,@(Convert.ToBase64String(influencer.Photo))" alt="@influencer.Username @influencer.Instagram @influencer.Facebook">
                         <div class="card-body text-center">
                             <h5 class="card-title text-center">@influencer.Username @influencer.Instagram @influencer.Facebook</h5>
+                            @if (influencer.AcceptedForTheOffer == null)
+                            {
+                            <a asp-controller="Publishers" asp-action="AcceptInfluencer" asp-route-id="@influencer.Id" class="btn btn-primary">Accept</a>
+                            <a asp-controller="Publishers" asp-action="DeclineInfluencer" asp-route-id="@influencer.Id" class="btn btn-primary">Decline</a>
+                            }
+                            else
+                            {
+                                string result = String.Empty;
+                                result = influencer.AcceptedForTheOffer == true ? result = "Accepted" : result = "Declined";
+
+                                <h4>@result</h4>
+
+                            }
                             <a asp-controller="Influencers" asp-action="Details" asp-route-id="@influencer.Id" class="btn btn-primary">Details</a>
-                            <a asp-controller="Publisher" asp-action="AcceptInfluencer" asp-route-id="@influencer.Id" class="btn btn-primary">Accept</a>
-                            <a asp-controller="Publisher" asp-action="DeclineInfluencer" asp-route-id="@influencer.Id" class="btn btn-primary">Decline</a>
                         </div>
                     </div>
                 </div>

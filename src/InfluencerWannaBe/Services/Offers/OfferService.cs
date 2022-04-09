@@ -31,7 +31,10 @@
             Country = x.Country.Name,            
             Photo = x.Photo,
             PublisherId = x.PublisherId,
-            Influencers = x.SignUpInfluencers
+            Influencers = x.SignUpInfluencers,
+            CreationDate = x.CreationDate,
+            Update = x.Update,
+            IsExpired = x.IsExpired
         })
             .ToList();
 
@@ -39,20 +42,21 @@
         {
             var influencer = this.influencerService.GetInfluencer(id);
 
-            var inflOffer = this.data.InfleuncerOffers.FirstOrDefault(x => x.InfluencerId == influencer.Id);
+            var inflOffers = this.data.InfleuncerOffers.Where(x => x.InfluencerId == influencer.Id).ToList();
 
-           return this.data.Offers
-                .Where(i => i.SignUpInfluencers.Contains(inflOffer))
+           return this.data.InfleuncerOffers                 
+                .Where(i => i.InfluencerId == influencer.Id)
                 .Select(x => new OffersListingViewModel
           {
               Id = x.Id,
-              Title = x.Title,
-              Payment = x.Payment,
-              Country = x.Country.Name,
-              Photo = x.Photo,
-              PublisherId = x.PublisherId,
-              OwnerId = x.OwnerId,
-              Influencers = x.SignUpInfluencers
+              OfferId = x.OfferId,
+              Title = x.Offer.Title,
+              Payment = x.Offer.Payment,
+              Country = x.Offer.Country.Name,
+              Photo = x.Offer.Photo,
+              PublisherId = x.Offer.PublisherId,
+              OwnerId = x.Offer.OwnerId,
+              Influencers = x.Offer.SignUpInfluencers
           })
            .ToList();
         }

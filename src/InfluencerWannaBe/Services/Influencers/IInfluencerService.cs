@@ -11,7 +11,9 @@ namespace InfluencerWannaBe.Services.Influencers
 
         int IdByUser(string userId);
 
-        public InfluencerOffers GetInfluencerOffer(Influencer influencer);
+        InfluencerOffers GetInfluencerOffer(Influencer influencer);
+
+        InfluencerOffers InfluencerOfferInflIdOfferId(int influencerId, int offerId);
 
         IEnumerable<Offer> InfluencerOffers(InfluencerOffers influencerOffers);
     }

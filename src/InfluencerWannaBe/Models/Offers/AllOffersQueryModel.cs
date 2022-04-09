@@ -4,7 +4,7 @@
 
     public class AllOffersQueryModel
     {
-        public const int OffersPerPage = 2;
+        public const int OffersPerPage = 3;
         public int PublisherId { get; set; }
         public string SearchTerm { get; init; }
         public int CurrentPage { get; init; } = 1;

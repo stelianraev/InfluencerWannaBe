@@ -4,18 +4,16 @@
     using System.Linq;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
     using InfluencerWannaBe.Data;
     using Microsoft.AspNetCore.Http;
     using InfluencerWannaBe.Data.Models;
     using InfluencerWannaBe.Infrastructure;
-    using Microsoft.AspNetCore.Authorization;
-    using InfluencerWannaBe.Models.Influencers;
     using InfluencerWannaBe.Services;
-    using InfluencerWannaBe.Services.Influencers;
-    using InfluencerWannaBe.Models;
-    using Microsoft.AspNetCore.Identity;
     using InfluencerWannaBe.Services.Offers;
+    using InfluencerWannaBe.Models.Influencers;
+    using InfluencerWannaBe.Services.Influencers;
 
     public class InfluencersController : Controller
     {
@@ -82,7 +80,7 @@
                 return View(influencer);
             }
 
-            var imageInMemory = new MemoryStream();
+            using var imageInMemory = new MemoryStream();
             photo.CopyTo(imageInMemory);
             var imageBytes = imageInMemory.ToArray();
 
@@ -147,7 +145,7 @@
                     Username = i.Username,
                     Instagram = i.InstagramUrl,
                     Facebook = i.FacebookUrl,
-                    Photo = i.Photo
+                    Photo = i.Photo                    
                 })
                 .ToList();
 

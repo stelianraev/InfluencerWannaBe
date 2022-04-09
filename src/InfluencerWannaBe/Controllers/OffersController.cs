@@ -10,7 +10,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
+    using System;
     using System.IO;
     using System.Linq;
 
@@ -60,6 +60,7 @@
             var totalOffers = offersQuery.Count();
 
             var offers = offersQuery
+                .Where(x => x.IsExpired == false)
                 .Skip((query.CurrentPage - 1) * AllOffersQueryModel.OffersPerPage)
                 .Take(AllOffersQueryModel.OffersPerPage)
                 .Select(i => new OffersListingViewModel
@@ -71,6 +72,10 @@
                     Country = i.Country.Name,
                     Photo = i.Photo,
                     Influencers = i.SignUpInfluencers,
+                    ExpireDate = i.ExpireDate,
+                    CreationDate = i.CreationDate,
+                    Update = i.Update,
+                    IsExpired = i.IsExpired
                 })
                 .ToList();
 
@@ -129,6 +134,10 @@
             selectedOffer.OwnerId = User.GetId();
             selectedOffer.Payment = offer.Payment;
             selectedOffer.IsPossibleToSignIn = true;
+            selectedOffer.Update = DateTime.Now;
+            selectedOffer.ExpireDate = selectedOffer.CreationDate > selectedOffer.Update ? selectedOffer.CreationDate.AddDays(30) : selectedOffer.Update.AddDays(30);
+
+
 
             //var offerOwner = this.data.Publishers.FirstOrDefault(x => x.UserId == offerData.OwnerId);
             //offerOwner.Offers.Add(offerData);
@@ -240,7 +249,11 @@
                 Requirents = offer.Requirements,
                 OwnerId = User.GetId(),
                 Payment = offer.Payment,
-                IsPossibleToSignIn = true
+                IsPossibleToSignIn = true,
+                CreationDate = DateTime.Now,
+                Update = default,
+                ExpireDate = offer.CreationDate.AddDays(30),
+                IsExpired = false
             };
 
             this.data.Offers.Add(offerData);
@@ -266,7 +279,11 @@
                     Description = x.Description,
                     CountryName = x.Country.Name,
                     Payment = x.Payment,
-                    Photo = x.Photo
+                    Photo = x.Photo,
+                    AssignedInfluencers = x.SignUpInfluencers,
+                    Update = x.Update,
+                    ExpireDate = x.ExpireDate,
+                    CreationDate = x.CreationDate                    
                 })
                 .FirstOrDefault();
 
@@ -281,6 +298,7 @@
 
             infOff.Influencer = influencer;
             infOff.Offer = offer;
+            infOff.AcceptedForTheOffer = null;
 
             this.data.InfleuncerOffers.Add(infOff);
 

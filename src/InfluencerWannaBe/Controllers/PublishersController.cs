@@ -203,11 +203,12 @@
                 .Where(x => x.OfferId == id)
                 .Select(x => new InfluencerListingViewModel
                 {
-                   Id = x.Id,
+                   Id = x.InfluencerId,
                    Photo = x.Influencer.Photo,
                    Facebook = x.Influencer.FacebookUrl,
                    Instagram = x.Influencer.InstagramUrl,
-                   Username = x.Influencer.Username
+                   Username = x.Influencer.Username,
+                   AcceptedForTheOffer = x.AcceptedForTheOffer
                 })
                 .ToList();
             
@@ -218,7 +219,9 @@
         public IActionResult AcceptInfluencer(int id)
         {
             var influencerOffer = this.data.InfleuncerOffers.FirstOrDefault(x => x.InfluencerId == id);
+            var influecer = this.data.Influencers.FirstOrDefault(x => x.Id == influencerOffer.InfluencerId);
             influencerOffer.AcceptedForTheOffer = true;
+            this.data.InfleuncerOffers.Update(influencerOffer);
 
             return RedirectToAction("AsignedInfluencers", "Publishers");
         }

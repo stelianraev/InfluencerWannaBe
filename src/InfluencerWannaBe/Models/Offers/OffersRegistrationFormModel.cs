@@ -1,6 +1,7 @@
 ﻿namespace InfluencerWannaBe.Models.Offers
 {
     using InfluencerWannaBe.Data;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -26,6 +27,10 @@
 
         public bool IsPossibleToSignIn { get; set; }
         public int CountryId { get; init; }
+        public DateTime? Update { get; set; } = null;
+        public DateTime ExpireDate { get; set; }
+        public DateTime CreationDate { get; set; } = DateTime.Now;
+
         public IEnumerable<CountryViewModel> Conutries { get; set; }
     }
 }

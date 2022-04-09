@@ -1,5 +1,6 @@
 ﻿namespace InfluencerWannaBe.Models.Offers
 {
+    using System;
     using System.Collections.Generic;
     using InfluencerWannaBe.Data.Models;
 
@@ -15,6 +16,10 @@
             public double Payment { get; init; }        
             public bool IsPossibleToSignIn { get; init; }
             public string Requirements { get; init; }
+            public DateTime? Update { get; set; }
+            public DateTime ExpireDate { get; set; }
+            public DateTime CreationDate { get; init; }
+            public ICollection<InfluencerOffers> AssignedInfluencers { get; set; } = new List<InfluencerOffers>();
             public ICollection<Review> Reviews { get; init; } = new List<Review>();     
     }
 }

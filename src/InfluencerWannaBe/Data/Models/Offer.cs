@@ -1,5 +1,6 @@
 ﻿namespace InfluencerWannaBe.Data.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -27,12 +28,15 @@
 
         public byte[] Photo { get; set; }
         public string OwnerId { get; set; }
-        public int PublisherId { get; set; }
+        public int PublisherId { get; init; }
 
-        public Publisher Publisher { get; set; }
+        public Publisher Publisher { get; init; }
 
         public bool IsPossibleToSignIn { get; set; }
-
+        public bool IsExpired { get; set; }
+        public DateTime CreationDate { get; init; }
+        public DateTime Update { get; set; }
+        public DateTime ExpireDate { get; set; }
         public ICollection<Publisher> Publishers { get; set; } = new List<Publisher>();
         public ICollection<InfluencerOffers> SignUpInfluencers { get; set; } = new List<InfluencerOffers>();
     }

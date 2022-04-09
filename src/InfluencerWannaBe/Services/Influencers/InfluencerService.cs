@@ -34,5 +34,8 @@
 
         public IEnumerable<Offer> InfluencerOffers(InfluencerOffers influencerOffers)
         => this.data.Offers.Where(x => x.SignUpInfluencers.Contains(influencerOffers)).ToList();
+
+        public InfluencerOffers InfluencerOfferInflIdOfferId(int influencerId, int offerId)
+            => this.data.InfleuncerOffers.FirstOrDefault(x => x.Influencer.Id == influencerId && x.Offer.Id == offerId);
     }
 }

@@ -4,14 +4,16 @@ using InfluencerWannaBe.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InfluencerWannaBe.Data.Migrations
 {
     [DbContext(typeof(InfluencerWannaBeDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220408074250_ExpirationDateToOffers")]
+    partial class ExpirationDateToOffers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,9 +180,6 @@ namespace InfluencerWannaBe.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<DateTime>("ExpireDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsExpired")
                         .HasColumnType("bit");
 
@@ -208,9 +207,6 @@ namespace InfluencerWannaBe.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("Update")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

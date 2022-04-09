@@ -5,7 +5,7 @@
     public class AllInfluencersQueryModel 
     {
         //How many influencers per page we want
-        public const int InfluencersPerPage = 2;
+        public const int InfluencersPerPage = 3;
 
         public string SearchTerm { get; init; }
         public int CurrentPage { get; init; } = 1;
