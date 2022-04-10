@@ -1,0 +1,32 @@
+﻿@model EmailFormModel
+@{
+    ViewData["Title"] = "Send Email";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <h2 class="text-center">Send Email</h2>
+
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label hidden asp-for="SenderEmail">From</label>
+                    <input hidden asp-for="SenderEmail" class="form-control">
+                    <span hidden asp-validation-for="SenderEmail" class="small text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label hidden asp-for="RecepientEmail">To</label>
+                    <input hidden asp-for="RecepientEmail" class="form-control" placeholder="user@example.com">
+                    <span hidden asp-validation-for="RecepientEmail" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Body">Message</label>
+                    <textarea asp-for="Body" rows="4" class="form-control" placeholder="Max symbols: 500"></textarea>
+                    <span asp-validation-for="Body" class="small text - danger"></span>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Save">
+            </form>
+        </div>
+    </div>
+</div>

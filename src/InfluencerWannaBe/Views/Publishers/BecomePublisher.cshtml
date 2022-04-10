@@ -5,16 +5,17 @@
 
 @using Microsoft.AspNetCore.Identity
 @using InfluencerWannaBe.Services.Influencers
+@using InfluencerWannaBe.Data.Models
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @inject IInfluencerService Influencers
 
 <div class="container">
     <div class="row">
         <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
             <h2 class="text-center">Become Publisher</h2>
-            @if (SignInManager.IsSignedIn(User))
+            @if (SignInManager.IsSignedIn(this.User))
             {
                 var userId = User.GetId();
                 var userIsInfluencer = Influencers.IsInfluencer(userId);
@@ -113,7 +114,7 @@
 
                     <div class="form-group">
                         <label asp-for="Photo">Profile Photo</label>
-                        <input type="file" name="Photo" id="photo"/>
+                        <input type="file" name="Photo" id="photo" />
                     </div>
 
                     <div class="form-group">
@@ -132,7 +133,7 @@
                 @if (userIsInfluencer)
                 {
 
-                <script type="text/javascript">
+                    <script type="text/javascript">
                         function autoFill() {
                             document.getElementById('firstname').value = "@influencer.FirstName";
                             document.getElementById('middlename').value = "@influencer.MiddleName";
@@ -148,10 +149,10 @@
                             document.getElementById('youtube').value = "@influencer.YouTubeUrl";
                             document.getElementById('tiktok').value = "@influencer.TikTokUrl";
                             document.getElementById('phonenumber').value = "@influencer.PhoneNumber";
-                            //document.getElementById('photo').src = "data:image/png;base64," + "@influencer.Photo";                        
-                </script>
-                    }
+                            //document.getElementById('photo').src = "data:image/png;base64," + "@influencer.Photo";
+                    </script>
                 }
+            }
         </div>
     </div>
 </div>

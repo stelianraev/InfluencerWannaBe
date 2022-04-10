@@ -15,6 +15,7 @@ namespace InfluencerWannaBe
     using InfluencerWannaBe.Services.Publisher;
     using InfluencerWannaBe.Services;
     using InfluencerWannaBe.Services.Offers;
+    using InfluencerWannaBe.Data.Models;
 
     public class Startup
     {
@@ -33,10 +34,12 @@ namespace InfluencerWannaBe
                 .AddDbContext<InfluencerWannaBeDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddMemoryCache();
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
-                .AddDefaultIdentity<IdentityUser>(options =>
+                .AddDefaultIdentity<User>(options =>
                 {
                     options.SignIn.RequireConfirmedAccount = false;
                     options.Password.RequireDigit = false;

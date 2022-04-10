@@ -28,7 +28,7 @@
     </div>
 </form>
 <div class="row">
-    @foreach (var publisher in Model.Publishers)
+    @foreach (var publisher in Model.ModelCollection)
     {
         <div class="col-md-4">
             <div class="card mb-3" style="width: 18rem;">               
@@ -49,7 +49,7 @@
         previusPage = 1;
     }
 
-    var maxPage = Math.Ceiling((double)Model.TotalPublishers / AllPublishersQueryModel.PublishersPerPage);
+    var maxPage = Math.Ceiling((double)Model.TotalElements / AllPublishersQueryModel.PublishersPerPage);
 }
 
 <div class="row">

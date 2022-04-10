@@ -1,9 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using InfluencerWannaBe.Services.Influencers
 @using InfluencerWannaBe.Services.Publisher
+@using InfluencerWannaBe.Data.Models
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @inject IInfluencerService Influencers
 @inject IPublisherService Publishers
 
