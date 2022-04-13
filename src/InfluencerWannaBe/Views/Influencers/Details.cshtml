@@ -62,7 +62,7 @@
         @if (!(String.IsNullOrEmpty(Model.Email) || String.IsNullOrWhiteSpace(Model.Email)))
         {
             <div class="nav-item">
-                <a class="nav-link active" href="@Model.Email">Email</a>
+                <a asp-controller="Home" asp-action="EmailSending" asp-route-id="@Model.Id" class="btn btn-success">Send Email</a>
             </div>
             <br />
         }
