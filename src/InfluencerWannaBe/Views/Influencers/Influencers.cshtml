@@ -29,7 +29,7 @@
     </div>
 </form>
 <div class="row">
-    @foreach (var influencer in Model.Influencers)
+    @foreach (var influencer in Model.ModelCollection)
     {
         <div class="col-md-4">
             <div class="card mb-3" style="width: 18rem;">
@@ -37,6 +37,10 @@
                 <div class="card-body text-center">
                     <h5 class="card-title text-center">@influencer.Username @influencer.Instagram @influencer.Facebook</h5>
                     <a asp-controller="Influencers" asp-action="Details" asp-route-id="@influencer.Id" class="btn btn-primary">Details</a>
+                    @if (User.IsAdmin())
+                    {
+                        <a asp-controller="Admin" asp-action="RemoveInfluencer" asp-route-id="@influencer.Id" class="btn btn-primary">Delete</a>
+                    }
                 </div>
             </div>
         </div>
@@ -50,7 +54,7 @@
         previusPage = 1;
     }
 
-    var maxPage = Math.Ceiling((double)Model.TotalInfluencers / AllInfluencersQueryModel.InfluencersPerPage);
+    var maxPage = Math.Ceiling((double)Model.TotalElements / AllInfluencersQueryModel.InfluencersPerPage);
 }
 
 <div class="row">

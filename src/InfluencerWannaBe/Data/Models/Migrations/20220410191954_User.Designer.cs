@@ -4,14 +4,16 @@ using InfluencerWannaBe.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InfluencerWannaBe.Data.Migrations
 {
     [DbContext(typeof(InfluencerWannaBeDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220410191954_User")]
+    partial class User
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,7 +112,7 @@ namespace InfluencerWannaBe.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -128,6 +130,10 @@ namespace InfluencerWannaBe.Data.Migrations
                     b.HasIndex("CountryId");
 
                     b.HasIndex("GenderId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Influencers");
                 });
@@ -279,7 +285,7 @@ namespace InfluencerWannaBe.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -299,6 +305,10 @@ namespace InfluencerWannaBe.Data.Migrations
                     b.HasIndex("GenderId");
 
                     b.HasIndex("OfferId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Publishers");
                 });
@@ -395,6 +405,10 @@ namespace InfluencerWannaBe.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -446,6 +460,8 @@ namespace InfluencerWannaBe.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -532,6 +548,13 @@ namespace InfluencerWannaBe.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("InfluencerWannaBe.Data.Models.User", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.HasDiscriminator().HasValue("User");
+                });
+
             modelBuilder.Entity("InfluencerWannaBe.Data.Models.Influencer", b =>
                 {
                     b.HasOne("InfluencerWannaBe.Data.Models.Country", "Country")
@@ -545,6 +568,11 @@ namespace InfluencerWannaBe.Data.Migrations
                         .HasForeignKey("GenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("InfluencerWannaBe.Data.Models.User", null)
+                        .WithOne()
+                        .HasForeignKey("InfluencerWannaBe.Data.Models.Influencer", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Country");
 
@@ -606,6 +634,11 @@ namespace InfluencerWannaBe.Data.Migrations
                     b.HasOne("InfluencerWannaBe.Data.Models.Offer", null)
                         .WithMany("Publishers")
                         .HasForeignKey("OfferId");
+
+                    b.HasOne("InfluencerWannaBe.Data.Models.User", null)
+                        .WithOne()
+                        .HasForeignKey("InfluencerWannaBe.Data.Models.Publisher", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Country");
 

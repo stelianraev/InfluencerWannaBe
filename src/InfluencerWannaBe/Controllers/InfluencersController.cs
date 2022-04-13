@@ -135,7 +135,7 @@
             };
 
             var totalInfluencers = influencersQuery.Count();
-
+                
             var influencers = influencersQuery
                 .Skip((query.CurrentPage - 1) * AllInfluencersQueryModel.InfluencersPerPage)
                 .Take(AllInfluencersQueryModel.InfluencersPerPage)
@@ -149,8 +149,8 @@
                 })
                 .ToList();
 
-            query.TotalInfluencers = totalInfluencers;
-            query.Influencers = influencers;
+            query.TotalElements = totalInfluencers;
+            query.ModelCollection = influencers;
 
             return this.View(query);
         }
@@ -162,6 +162,7 @@
                 .Where(x => x.Id == id)
                 .Select(x => new InfluencerViewModel
                 {
+                    Id = x.Id,
                     Photo = x.Photo,
                     Username = x.Username,
                     FacebookUrl = x.FacebookUrl,

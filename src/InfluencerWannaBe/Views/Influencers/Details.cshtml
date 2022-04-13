@@ -1,5 +1,5 @@
 ﻿@model InfluencerViewModel
-    
+
 <div class="row mb-5">
     <div class="card mb-3" style="width: 18rem;">
         <img class="card-img-top" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Photo))"><img />
@@ -62,7 +62,7 @@
         @if (!(String.IsNullOrEmpty(Model.Email) || String.IsNullOrWhiteSpace(Model.Email)))
         {
             <div class="nav-item">
-                <a class="nav-link active" href="@Model.Email">Email</a>
+                <a asp-controller="Home" asp-action="EmailSending" asp-route-id="@Model.Id" class="btn btn-success">Send Email</a>
             </div>
             <br />
         }
@@ -73,5 +73,11 @@
             </div>
             <br />
         }
+        @{ 
+            if (User.IsAdmin())
+            {
+                <a asp-controller="Admin" asp-action="RemoveInfluencer" asp-route-id="@Model.Id" class="btn btn-primary">Delete</a>
+            }
+        }
     </div>
- </div>
+</div>

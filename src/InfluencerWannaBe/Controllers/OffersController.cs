@@ -68,6 +68,7 @@
                     Id = i.Id,
                     Title = i.Title,
                     Payment = i.Payment,
+                    OfferId = i.Id,
                     PublisherUserName = i.Publisher.Username,
                     Country = i.Country.Name,
                     Photo = i.Photo,
@@ -79,8 +80,8 @@
                 })
                 .ToList();
 
-            query.TotalOffers = totalOffers;
-            query.Offers = offers;
+            query.TotalElements = totalOffers;
+            query.ModelCollection = offers;
 
             return this.View(query);
         }
@@ -90,7 +91,14 @@
         public IActionResult Delete(int id)
         {
             this.offerService.DeleteOfferById(id);
+            if (User.IsAdmin())
+            {
+                return RedirectToAction("Offers", "Offers");
+            }
+            else
+            {
             return RedirectToAction(nameof(PublishersController.PublisherOffer));
+            }
         }
 
         [Authorize]
@@ -144,8 +152,14 @@
             //this.data.Publishers.Update(offerOwner);
             this.data.Offers.Update(selectedOffer);
             this.data.SaveChanges();
-
-            return RedirectToAction(nameof(PublishersController.PublisherOffer));
+            if (User.IsAdmin())
+            {
+                return RedirectToAction("Offers", "Offers");
+            }
+            else
+            {
+            return RedirectToAction(nameof(PublishersController.PublisherOffer));                
+            }
         }
 
         [Authorize]
@@ -269,7 +283,7 @@
         public IActionResult Details(int id)
         {
             var selected = this.data.Offers
-                .Where(x => x.Id == id)
+                .Where(o => o.Id == id)
                 .Select(x => new OfferViewModel
                 {
                     Id = x.Id,

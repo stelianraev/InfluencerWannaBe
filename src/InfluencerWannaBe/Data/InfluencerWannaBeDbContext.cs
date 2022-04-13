@@ -3,9 +3,8 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using InfluencerWannaBe.Data.Models;
-    using Microsoft.AspNetCore.Identity;
 
-    public class InfluencerWannaBeDbContext : IdentityDbContext
+    public class InfluencerWannaBeDbContext : IdentityDbContext<User>
     {
         public InfluencerWannaBeDbContext(DbContextOptions<InfluencerWannaBeDbContext> options)
             : base(options)
@@ -69,13 +68,6 @@
                 .Entity<Influencer>()
                 .HasMany(i => i.Reviews)
                 .WithOne(r => r.Influencer)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .Entity<Influencer>()
-                .HasOne<IdentityUser>()
-                .WithOne()
-                .HasForeignKey<Influencer>(i => i.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base

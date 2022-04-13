@@ -45,20 +45,24 @@
         }
 
         @{
-            //var isInfluencer = influencers.IsInfluencer(this.User.GetId());
-            var offer = this.offers.GetOffer(Model.Id);
-            var influencer = this.influencers.GetInfluencer(this.User.GetId());
-            var infOffer = this.influencers.GetInfluencerOffer(influencer);
-            var influencerOffers = this.influencers.InfluencerOffers(infOffer).ToList();
-            var publisher = this.publishers.GetPublisher(offer.PublisherId);
+                var offer = this.offers.GetOffer(Model.Id);
+                var publisher = this.publishers.GetPublisher(offer.PublisherId);
 
-            if (influencer != null && !influencerOffers.Contains(offer) && publisher.UserId != this.User.GetId())
+            if (!this.User.IsAdmin())
             {
-                //<input type="button" class="btn btn-success" value="SignUp" onclick="location.href='@Url.Action("SignUp", "Offers", Model.Id)'" />
+                //var isInfluencer = influencers.IsInfluencer(this.User.GetId());
+                var influencer = this.influencers.GetInfluencer(this.User.GetId());
+                var infOffer = this.influencers.GetInfluencerOffer(influencer);
+                var influencerOffers = this.influencers.InfluencerOffers(infOffer).ToList();
+
+                if (influencer != null && !influencerOffers.Contains(offer) && publisher.UserId != this.User.GetId())
+                {
+                    //<input type="button" class="btn btn-success" value="SignUp" onclick="location.href='@Url.Action("SignUp", "Offers", Model.Id)'" />
                 <a asp-controller="Offers" asp-action="SignUp" asp-route-id="@Model.Id" class="btn btn-success">SignUp</a>
                 <br />
+                    }
+                }
             }
-        }
         @{
             var offers = publishers.GetPublisherOffers(publisher.Id);
         }
@@ -72,7 +76,7 @@
         <br />
         <div class="nav-item">
             <a asp-controller="Publishers" asp-action="Details" asp-route-id="@publisher.Id" class="btn btn-success">Publisher profile</a>
-            @if (offer.OwnerId == this.User.GetId())
+            @if (offer.OwnerId == this.User.GetId() || User.IsAdmin())
             {
                 <a asp-controller="Offers" asp-action="Delete" asp-route-id="@offer.Id" class="btn btn-primary">Delete</a>
                 <a asp-controller="Offers" asp-action="Edit" asp-route-id="@offer.Id" class="btn btn-primary">Edit</a>

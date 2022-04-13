@@ -160,8 +160,8 @@
                 })
                 .ToList();
         
-            query.TotalPublishers = totalPublishers;
-            query.Publishers = publishers;
+            query.TotalElements = totalPublishers;
+            query.ModelCollection = publishers;
         
             return this.View(query);
         }
