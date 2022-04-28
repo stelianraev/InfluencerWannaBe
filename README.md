@@ -13,3 +13,13 @@ IfluencerWannaBe is an application focused for people who are/or want to become 
 * JQuery
 * Bootstrap
 * Nunit
+* MY Tested MVC
+
+### DataBaseDiagram
+![DataBaseDiagram] {}
+
+### Unit test
+![Unit Tests] {}
+
+### Author
+![Stelian Raev] (https://github.com/stelianraev)
