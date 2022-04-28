@@ -28,6 +28,7 @@ namespace InfluencerWannaBe
         {
             services
                 .AddTransient<IPublisherService, PublisherService>()
+                .AddTransient<IEmailSender, EmailSender>()
                 .AddTransient<IInfluencerService, InfluencerService>()
                 .AddTransient<IGetCollection, GetCollection>()
                 .AddTransient<IOfferService, OfferService>()

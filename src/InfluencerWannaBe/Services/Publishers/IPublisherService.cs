@@ -13,5 +13,7 @@
         public Publisher GetPublisher(int id);
 
         public IEnumerable<Offer> GetPublisherOffers(int id);
+
+        public void DeletePublisherById(int id);
     }
 }

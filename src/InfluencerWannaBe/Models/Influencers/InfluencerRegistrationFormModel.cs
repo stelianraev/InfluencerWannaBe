@@ -55,7 +55,7 @@
         [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
         public int CountryId { get; init; }
-        public IEnumerable<CountryViewModel> Conutries { get; set; }
-        public IEnumerable<GenderViewModel> Genders { get; set; }
+        public ICollection<CountryViewModel> Conutries { get; set; }
+        public ICollection<GenderViewModel> Genders { get; set; }
     }
 }

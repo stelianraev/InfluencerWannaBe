@@ -15,12 +15,14 @@
         private readonly InfluencerWannaBeDbContext data;
         private readonly IInfluencerService influencers;
         private readonly IPublisherService publishers;
+        private IEmailSender emailSender;
 
-        public HomeController(InfluencerWannaBeDbContext data, IInfluencerService influencers, IPublisherService publishers)        
+        public HomeController(InfluencerWannaBeDbContext data, IInfluencerService influencers, IPublisherService publishers, IEmailSender emailSender)        
         {
             this.data = data;
             this.influencers = influencers;
             this.publishers = publishers;
+            this.emailSender = emailSender;
         }
         
         public IActionResult Index() => View();
@@ -30,10 +32,9 @@
         [Authorize]
         public IActionResult EmailSending(int id)
         {
-            var publisher = publishers.GetPublisher(id);
             return this.View(new EmailFormModel()
             {
-                RecepientEmail = publisher.Email,
+                RecepientEmail = publishers.GetPublisher(id).Email,
                 SenderEmail = User.GetEmail()
             });
         }
@@ -46,9 +47,7 @@
             {
                 return View(email);
             }
-
-            EmailSender.SendEmail(email.RecepientEmail, email.SenderEmail, email.Body);
-
+            this.emailSender.SendEmail(email.RecepientEmail, email.SenderEmail, email.Body);
             return View("SuccessEmailSent");
         }
     }

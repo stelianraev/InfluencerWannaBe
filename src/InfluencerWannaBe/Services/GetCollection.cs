@@ -11,7 +11,7 @@
         {
             this.data = data;
         }
-        public IEnumerable<CountryViewModel> GetCountries()
+        public ICollection<CountryViewModel> GetCountries()
         => this.data
             .Countries
             .Select(c => new CountryViewModel
@@ -21,7 +21,7 @@
             })
             .ToList();
 
-        public IEnumerable<GenderViewModel> GetGender()
+        public ICollection<GenderViewModel> GetGender()
         => this.data
            .Genders
            .Select(c => new GenderViewModel

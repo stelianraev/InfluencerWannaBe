@@ -47,7 +47,7 @@
 
             if (photo == null || photo.Length > 5 * 1024 * 1024)
             {
-                this.ModelState.AddModelError("Photo", "Image is too big. Max size is 5MB");
+                this.ModelState.AddModelError("Photo", "Image is missing or too big. Max size is 5MB");
             }
 
             if (!this.data.Countries.Any(x => x.Id == influencer.CountryId))

@@ -2,9 +2,9 @@
 {
     using System.Net.Mail;
 
-    public static class EmailSender
+    public class EmailSender : IEmailSender
     {
-        public static void SendEmail(string recepientEmail, string subject, string body)
+        public void SendEmail(string recepientEmail, string subject, string body)
         {
             MailMessage mail = new();
             SmtpClient SmtpServer = new("smtp-mail.outlook.com");

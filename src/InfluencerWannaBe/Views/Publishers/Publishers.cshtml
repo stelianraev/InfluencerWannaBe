@@ -33,10 +33,14 @@
         <div class="col-md-4">
             <div class="card mb-3" style="width: 18rem;">               
                     <img class="card-img-top" src="data:image/jpeg;base64,@(Convert.ToBase64String(publisher.Photo))" alt="@publisher.Username @publisher.Country">
-                     <div class="card-body text-center">
-                    <h5 class="card-title text-center">@publisher.Username @publisher.Country</h5>
-                    <a asp-controller="Publishers" asp-action="Details" asp-route-id="@publisher.Id" class="btn btn-primary">Details</a>
-                </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-center">@publisher.Username @publisher.Country</h5>
+                        <a asp-controller="Publishers" asp-action="Details" asp-route-id="@publisher.Id" class="btn btn-primary">Details</a>
+                        @if (User.IsAdmin())
+                        {
+                            <a asp-controller="Publishers" asp-action="Delete" asp-route-id="@publisher.Id" class="btn btn-primary">Delete</a>
+                        }
+                    </div>
             </div>
         </div>
     }

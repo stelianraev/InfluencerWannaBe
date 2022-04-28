@@ -1,4 +1,4 @@
-﻿namespace InfluencerWannaBe.Models.Constants
+﻿namespace InfluencerWannaBe.Areas.Admin
 {
     public class AdminConstants
     {

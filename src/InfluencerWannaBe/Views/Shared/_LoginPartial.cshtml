@@ -31,10 +31,6 @@
                 {
                     <a class="dropdown-item" asp-controller="Influencers" asp-action="SignInOffers">SignIn Offers</a>
                 }
-                else
-                {
-                    <a class="dropdown-item" asp-controller="Offers" asp-action="AddOffer">Option 3</a>
-                }
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                     <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                 </form>

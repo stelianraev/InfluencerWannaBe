@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using InfluencerWannaBe.Data;
     using InfluencerWannaBe.Data.Models;
 
@@ -32,5 +33,12 @@
 
         public IEnumerable<Offer> GetPublisherOffers(int id)
         => this.data.Offers.Where(x => x.PublisherId == id).ToList();
+
+        public void DeletePublisherById(int id)
+        {
+            var publisher = this.data.Publishers.Where(x => x.Id == id).FirstOrDefault();
+            this.data.Publishers.Remove(publisher);
+            Task.Run(async () => await this.data.SaveChangesAsync()).GetAwaiter().GetResult();
+        }
     }
 }

@@ -14,7 +14,7 @@
     using System;
     using Microsoft.AspNetCore.Identity;
 
-    using static Models.Constants.AdminConstants;
+    using static InfluencerWannaBe.Areas.Admin.AdminConstants;
     using System.Threading.Tasks;
 
     public static class ApplicationBuilderExtension

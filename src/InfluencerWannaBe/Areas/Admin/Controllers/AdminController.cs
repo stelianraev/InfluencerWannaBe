@@ -1,29 +1,20 @@
-﻿namespace CarRentingSystem.Areas.Admin.Controllers
+﻿namespace InfluencerWannaBe.Areas.Admin.Controllers
 {
     using InfluencerWannaBe.Data;
-    using InfluencerWannaBe.Services;
-    using InfluencerWannaBe.Services.Influencers;
-    using InfluencerWannaBe.Services.Offers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
-    using static InfluencerWannaBe.Models.Constants.AdminConstants;
+    using static InfluencerWannaBe.Areas.Admin.AdminConstants;
 
     [Area(AreaName)]
     [Authorize(Roles = AdministratorRoleName)]
     public class AdminController : Controller
     {
         private readonly InfluencerWannaBeDbContext data;
-        private readonly IInfluencerService influencers;
-        private readonly IGetCollection getCollection;
-        private readonly IOfferService offerService;
 
-        public AdminController(InfluencerWannaBeDbContext data, IInfluencerService influencers, IGetCollection getCollection, IOfferService offerService)
+        public AdminController(InfluencerWannaBeDbContext data)
         {
-            this.influencers = influencers;
             this.data = data;
-            this.getCollection = getCollection;
-            this.offerService = offerService;
         }
 
         [Authorize]

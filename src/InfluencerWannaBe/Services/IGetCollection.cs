@@ -5,7 +5,7 @@ namespace InfluencerWannaBe.Services
 {
     public interface IGetCollection
     {
-        IEnumerable<CountryViewModel> GetCountries();
-        IEnumerable<GenderViewModel> GetGender();
+        ICollection<CountryViewModel> GetCountries();
+        ICollection<GenderViewModel> GetGender();
     }
 }

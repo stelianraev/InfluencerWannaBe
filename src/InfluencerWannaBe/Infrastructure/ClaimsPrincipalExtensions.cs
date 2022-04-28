@@ -2,7 +2,7 @@
 {
     using System.Security.Claims;
 
-    using static Models.Constants.AdminConstants;
+    using static InfluencerWannaBe.Areas.Admin.AdminConstants;
 
     public static class ClaimsPrincipalExtensions
     {

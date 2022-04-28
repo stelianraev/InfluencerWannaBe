@@ -234,5 +234,19 @@
 
             return RedirectToAction("AsignedInfluencers", "Publishers");
         }
+
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            this.publishers.DeletePublisherById(id);
+            if (User.IsAdmin())
+            {
+                return RedirectToAction("Publishers", "Publishers");
+            }
+            else
+            {
+                return RedirectToAction(nameof(PublishersController.Publishers));
+            }
+        }
     }
 }
