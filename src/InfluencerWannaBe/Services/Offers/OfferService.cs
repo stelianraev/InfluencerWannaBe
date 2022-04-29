@@ -26,11 +26,12 @@
         public ICollection<OffersListingViewModel> OffersByUser(string id)
         => this.data.Offers.Where(x => x.OwnerId == id).Select(x => new OffersListingViewModel
         {
-            Id = x.Id,
+            Id = x.Id,            
             Title = x.Title,
             Payment = x.Payment,
             Country = x.Country.Name,            
-            Photo = x.Photo,
+            Photo = x.Photo,        
+            OfferId = x.Id,
             PublisherId = x.PublisherId,
             Influencers = x.SignUpInfluencers,
             CreationDate = x.CreationDate,
