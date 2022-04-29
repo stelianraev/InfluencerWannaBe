@@ -42,7 +42,7 @@
 
         public byte[] Photo { get; set; }
 
-        public int GenderId { get; init; }
+        public int GenderId { get; set; }
 
         //[Required]
         [EmailAddress(ErrorMessage = "Invalid email address")]

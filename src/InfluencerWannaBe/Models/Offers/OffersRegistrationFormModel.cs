@@ -26,7 +26,7 @@
         public byte[] Photo { get; set; }
 
         public bool IsPossibleToSignIn { get; set; }
-        public int CountryId { get; init; }
+        public int CountryId { get; set; }
         public DateTime? Update { get; set; } = null;
         public DateTime ExpireDate { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.Now;

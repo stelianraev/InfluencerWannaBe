@@ -1,10 +1,11 @@
-﻿using InfluencerWannaBe.Models;
-using InfluencerWannaBe.Services;
-using Moq;
-using System.Collections.Generic;
-
-namespace InfluencerWannaBeUnitTest.Mocks
+﻿namespace InfluencerWannaBeUnitTest.Mocks
 {
+    using System.Collections.Generic;
+
+    using Moq;
+    using InfluencerWannaBe.Models;
+    using InfluencerWannaBe.Services;
+
     public static class GetCollectionMock
     {
         public static IGetCollection Instance

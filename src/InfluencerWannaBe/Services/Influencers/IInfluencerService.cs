@@ -8,6 +8,7 @@ namespace InfluencerWannaBe.Services.Influencers
         bool IsInfluencer(string userId);
 
         Influencer GetInfluencer(string id);
+        Influencer GetInfluencer(int id);
 
         int IdByUser(string userId);
 

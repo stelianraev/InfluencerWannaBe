@@ -1,7 +1,7 @@
 ﻿namespace InfluencerWannaBeUnitTest.Mocks
 {
-    using InfluencerWannaBe.Services;
     using Moq;
+    using InfluencerWannaBe.Services;
 
     public static class EmailSenderMock
     {

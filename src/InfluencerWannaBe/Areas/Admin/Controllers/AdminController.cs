@@ -1,9 +1,11 @@
 ﻿namespace InfluencerWannaBe.Areas.Admin.Controllers
 {
-    using InfluencerWannaBe.Data;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
     using System.Linq;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+
+    using InfluencerWannaBe.Data;
     using static InfluencerWannaBe.Areas.Admin.AdminConstants;
 
     [Area(AreaName)]

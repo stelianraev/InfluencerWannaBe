@@ -1,8 +1,9 @@
 ﻿namespace InfluencerWannaBe.Services.Publisher
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
+
     using InfluencerWannaBe.Data;
     using InfluencerWannaBe.Data.Models;
 

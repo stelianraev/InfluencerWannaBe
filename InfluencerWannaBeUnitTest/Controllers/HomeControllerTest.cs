@@ -1,21 +1,40 @@
 namespace InfluencerWannaBeUnitTest.Controllers
 {
-    using InfluencerWannaBe.Controllers;
-    using InfluencerWannaBe.Models;
-    using InfluencerWannaBeUnitTest.Mocks;
+    using System.Security.Claims;
+    using System.Collections.Generic;
     using Microsoft.AspNetCore.Http;
+
+    using InfluencerWannaBe.Data;
+    using InfluencerWannaBe.Models;
+    using InfluencerWannaBe.Controllers;
+    using InfluencerWannaBeUnitTest.Mocks;
+    using InfluencerWannaBe.Services;
+    using InfluencerWannaBe.Services.Influencers;
+    using InfluencerWannaBe.Services.Offers;
+    using InfluencerWannaBe.Services.Publisher;
+
     using MyTested.AspNetCore.Mvc;
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Security.Claims;
 
     [TestFixture]
     public class HomeControllerTest
     {
-        [SetUp]
+        private InfluencerWannaBeDbContext data;
+        private IInfluencerService influencerService;
+        private IGetCollection getCollection;
+        private IOfferService offerService;
+        private IPublisherService publisherService;
+
+        [OneTimeSetUp]
         public void Setup()
         {
-            
+            this.data = DatabaseMock.Instance;
+            this.influencerService = InfluencerServiceMock.Instance;
+            this.getCollection = GetCollectionMock.Instance;
+            this.offerService = OfferServiceMock.Instance;
+            this.publisherService = PublisherServiceMock.Instance;
+
+           this.data.Database.EnsureDeleted();
         }
 
         [Test]
@@ -51,7 +70,7 @@ namespace InfluencerWannaBeUnitTest.Controllers
 
             //Thread.CurrentPrincipal = fakeClaimsPrincipal;
 
-            HomeController homeController = new HomeController(DatabaseMock.Instance, null, PublisherServiceMock.Instance, null);
+            HomeController homeController = new HomeController(this.data, null, this.publisherService, null);
 
             homeController.ControllerContext.HttpContext = new DefaultHttpContext
             {
@@ -78,7 +97,7 @@ namespace InfluencerWannaBeUnitTest.Controllers
        public void EmailSendingShouldReturnCorrectViewPost()
        => MyController<HomeController>
            .Instance(controller => controller
-           .WithDependencies(DatabaseMock.Instance, null, PublisherServiceMock.Instance, EmailSenderMock.Instance))
+           .WithDependencies(this.data, null, this.publisherService, EmailSenderMock.Instance))
            .Calling(c => c.EmailSending(new EmailFormModel
            {
                SenderEmail = "sender@sender.com",

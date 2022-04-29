@@ -1,18 +1,18 @@
 ﻿namespace InfluencerWannaBe.Infrastructure
 {
+    using System;
     using System.IO;
     using System.Linq;
     using System.Collections.Generic;
 
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
 
     using Newtonsoft.Json;
     using InfluencerWannaBe.Data;
     using InfluencerWannaBe.Data.Models;
-    using System;
-    using Microsoft.AspNetCore.Identity;
 
     using static InfluencerWannaBe.Areas.Admin.AdminConstants;
     using System.Threading.Tasks;
@@ -31,6 +31,7 @@
             SeedCountries(services);
             SeedGenders(services);
             SeedAdministrator(services);
+            CreateFileForLogs();
 
             return app;
         }
@@ -124,6 +125,14 @@
                 })
                 .GetAwaiter()
                 .GetResult();
+        }
+
+        private static void CreateFileForLogs()
+        {
+            if (!File.Exists("Logs.txt"))
+            {
+                File.Create("Logs.txt");
+            }
         }
     }
 }

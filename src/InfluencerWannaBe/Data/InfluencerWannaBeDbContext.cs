@@ -2,6 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
     using InfluencerWannaBe.Data.Models;
 
     public class InfluencerWannaBeDbContext : IdentityDbContext<User>

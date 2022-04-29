@@ -1,19 +1,22 @@
 ﻿namespace InfluencerWannaBe.Controllers
 {
+    using System;
     using System.IO;
     using System.Linq;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Authorization;
+
     using InfluencerWannaBe.Data;
     using InfluencerWannaBe.Data.Models;
     using InfluencerWannaBe.Infrastructure;
-    using InfluencerWannaBe.Models.Influencers;
     using InfluencerWannaBe.Models.Publishers;
+    using InfluencerWannaBe.Models.Influencers;
     using InfluencerWannaBe.Services;
-    using InfluencerWannaBe.Services.Influencers;
     using InfluencerWannaBe.Services.Offers;
     using InfluencerWannaBe.Services.Publisher;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
+    using InfluencerWannaBe.Services.Influencers;
 
     public class PublishersController : Controller
     {
@@ -46,123 +49,136 @@
         [HttpPost]
         public IActionResult BecomePublisher(PublisherRegistrationFormModel publisher, IFormFile photo)
         {
-            var influencerId = this.influencers.IdByUser(this.User.GetId());
-            publisher.Email = User.GetEmail();
-            
-            var publisherId = this.publishers.IdByUser(this.User.GetId());
-            byte[] imageBytes = null;
-            if (photo != null)
+            try
             {
-                if (photo.Length > 5 * 1024 * 1024)
+                var influencerId = this.influencers.IdByUser(this.User.GetId());
+                publisher.Email = User.GetEmail();
+
+                var publisherId = this.publishers.IdByUser(this.User.GetId());
+                byte[] imageBytes = null;
+                if (photo != null)
                 {
-                    this.ModelState.AddModelError("Photo", "Image is too big. Max size is 5MB");
+                    if (photo.Length > 5 * 1024 * 1024)
+                    {
+                        this.ModelState.AddModelError("Photo", "Image is too big. Max size is 5MB");
+                    }
+
+                    var imageInMemory = new MemoryStream();
+                    photo.CopyTo(imageInMemory);
+                    imageBytes = imageInMemory.ToArray();
+                }
+                else
+                {
+                    var file = Path.GetFullPath(@"wwwroot\pics\noimage.jpg");
+                    imageBytes = System.IO.File.ReadAllBytes(file);
                 }
 
-                var imageInMemory = new MemoryStream();
-                photo.CopyTo(imageInMemory);
-                imageBytes = imageInMemory.ToArray();
-            }
-            else
-            {
-                var file = Path.GetFullPath(@"wwwroot\pics\noimage.jpg");
-                imageBytes = System.IO.File.ReadAllBytes(file);                
-            }
+                if (!this.data.Countries.Any(x => x.Id == publisher.CountryId))
+                {
+                    this.ModelState.AddModelError(nameof(publisher.CountryId), "Country do not exist");
+                }
 
-            if (!this.data.Countries.Any(x => x.Id == publisher.CountryId))
-            {
-                this.ModelState.AddModelError(nameof(publisher.CountryId), "Country do not exist");
-            }
+                if (!this.data.Genders.Any(x => x.Id == publisher.GenderId))
+                {
+                    this.ModelState.AddModelError(nameof(publisher.GenderId), "Gender do not exist");
+                }
+                if (this.data.Publishers.Any(x => x.Username == publisher.Username))
+                {
+                    this.ModelState.AddModelError(nameof(publisher.Username), "Username is already taken");
+                }
+                if (this.data.Publishers.Any(x => x.Email == User.GetEmail()))
+                {
+                    this.ModelState.AddModelError(nameof(publisher.Email), "This email already exist");
+                }
+                if (publisherId != 0)
+                {
+                    this.ModelState.AddModelError(nameof(publisher), "This Publisher already exist");
+                }
 
-            if (!this.data.Genders.Any(x => x.Id == publisher.GenderId))
-            {
-                this.ModelState.AddModelError(nameof(publisher.GenderId), "Gender do not exist");
-            }
-            if(this.data.Publishers.Any(x => x.Username == publisher.Username))
-            {
-                this.ModelState.AddModelError(nameof(publisher.Username), "Username is already taken");
-            }
-            if(this.data.Publishers.Any(x => x.Email == User.GetEmail()))
-            {
-                this.ModelState.AddModelError(nameof(publisher.Email), "This email already exist");
-            }
-            if (publisherId != 0)
-            {
-                this.ModelState.AddModelError(nameof(publisher), "This Publisher already exist");
-            }
+                if (!ModelState.IsValid)
+                {
+                    publisher.Conutries = this.getCollection.GetCountries();
+                    publisher.Genders = this.getCollection.GetGender();
 
-            if (!ModelState.IsValid)
-            {
-                publisher.Conutries = this.getCollection.GetCountries();
-                publisher.Genders = this.getCollection.GetGender();
+                    return View(publisher);
+                }
 
-                return View(publisher);
+                var publisherData = new Publisher
+                {
+                    FirstName = publisher.FirstName,
+                    MiddleName = publisher.MiddleName,
+                    LastName = publisher.LastName,
+                    GenderId = publisher.GenderId,
+                    Username = publisher.Username,
+                    CountryId = publisher.CountryId,
+                    Description = publisher.Description,
+                    PhoneNumber = publisher.PhoneNumber,
+                    InstagramUrl = publisher.InstagramUrl,
+                    FacebookUrl = publisher.FacebookUrl,
+                    TwitterUrl = publisher.TwitterUrl,
+                    YouTubeUrl = publisher.YouTubeUrl,
+                    TikTokUrl = publisher.TikTokUrl,
+                    Email = publisher.Email,
+                    WebsiteUrl = publisher.WebSiteUrl,
+                    Photo = imageBytes,
+                    UserId = User.GetId()
+                };
+
+                this.data.Publishers.Add(publisherData);
+                this.data.SaveChanges();
             }
-
-            var publisherData = new Publisher
+            catch(Exception ex)
             {
-                FirstName = publisher.FirstName,
-                MiddleName = publisher.MiddleName,
-                LastName = publisher.LastName,
-                GenderId = publisher.GenderId,
-                Username = publisher.Username,
-                CountryId = publisher.CountryId,
-                Description = publisher.Description,
-                PhoneNumber = publisher.PhoneNumber,
-                InstagramUrl = publisher.InstagramUrl,
-                FacebookUrl = publisher.FacebookUrl,
-                TwitterUrl = publisher.TwitterUrl,
-                YouTubeUrl = publisher.YouTubeUrl,
-                TikTokUrl = publisher.TikTokUrl,
-                Email = publisher.Email,
-                WebsiteUrl = publisher.WebSiteUrl,
-                Photo = imageBytes,
-                UserId = User.GetId()                
-            };
-
-            this.data.Publishers.Add(publisherData);
-            this.data.SaveChanges();
-
+                Helper.Logs($"Error: {ex}" + DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"), "PublisherController_BecomePublisher" + DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
+            }
             return RedirectToAction(nameof(Publishers));
         }
 
         [Authorize]
         public IActionResult Publishers([FromQuery] AllPublishersQueryModel query)
         {
-            var publishersQuery = this.data.Publishers.AsQueryable();
-        
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            try
             {
-                publishersQuery = publishersQuery.Where(i =>
-                   (i.FirstName + " " + i.LastName).ToLower().Contains(query.SearchTerm.ToLower()) ||
-                   i.FirstName.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                   i.Username.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                   i.LastName.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
-        
-            publishersQuery = query.Sorting switch
-            {
-                PublisherSorting.Username => publishersQuery.OrderBy(i => i.Username),
-                PublisherSorting.FirstName => publishersQuery.OrderBy(i => i.FirstName),
-                PublisherSorting.DateCreated or _ => publishersQuery.OrderByDescending(i => i.Id),
-            };
-        
-            var totalPublishers = publishersQuery.Count();
-        
-            var publishers = publishersQuery
-                .Skip((query.CurrentPage - 1) * AllPublishersQueryModel.PublishersPerPage)
-                .Take(AllPublishersQueryModel.PublishersPerPage)
-                .Select(i => new PublisherListingViewModel
+                var publishersQuery = this.data.Publishers.AsQueryable();
+
+                if (!string.IsNullOrWhiteSpace(query.SearchTerm))
                 {
-                    Id = i.Id,
-                    Username = i.Username,
-                    Country = i.Country.Name,
-                    Photo = i.Photo                   
-                })
-                .ToList();
-        
-            query.TotalElements = totalPublishers;
-            query.ModelCollection = publishers;
-        
+                    publishersQuery = publishersQuery.Where(i =>
+                       (i.FirstName + " " + i.LastName).ToLower().Contains(query.SearchTerm.ToLower()) ||
+                       i.FirstName.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                       i.Username.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                       i.LastName.ToLower().Contains(query.SearchTerm.ToLower()));
+                }
+
+                publishersQuery = query.Sorting switch
+                {
+                    PublisherSorting.Username => publishersQuery.OrderBy(i => i.Username),
+                    PublisherSorting.FirstName => publishersQuery.OrderBy(i => i.FirstName),
+                    PublisherSorting.DateCreated or _ => publishersQuery.OrderByDescending(i => i.Id),
+                };
+
+                var totalPublishers = publishersQuery.Count();
+
+                var publishers = publishersQuery
+                    .Skip((query.CurrentPage - 1) * AllPublishersQueryModel.PublishersPerPage)
+                    .Take(AllPublishersQueryModel.PublishersPerPage)
+                    .Select(i => new PublisherListingViewModel
+                    {
+                        Id = i.Id,
+                        Username = i.Username,
+                        Country = i.Country.Name,
+                        Photo = i.Photo
+                    })
+                    .ToList();
+
+                query.TotalElements = totalPublishers;
+                query.ModelCollection = publishers;
+            }
+            catch(Exception ex)
+            {
+                Helper.Logs($"Error: {ex}" + DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"), "PublisherController_Publishers" + DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
+            }
+
             return this.View(query);
         }
 
@@ -218,19 +234,32 @@
         [Authorize]
         public IActionResult AcceptInfluencer(int id)
         {
-            var influencerOffer = this.data.InfleuncerOffers.FirstOrDefault(x => x.InfluencerId == id);
-            var influecer = this.data.Influencers.FirstOrDefault(x => x.Id == influencerOffer.InfluencerId);
-            influencerOffer.AcceptedForTheOffer = true;
-            this.data.InfleuncerOffers.Update(influencerOffer);
-
+            try
+            {
+                var influencerOffer = this.data.InfleuncerOffers.FirstOrDefault(x => x.InfluencerId == id);
+                var influecer = this.data.Influencers.FirstOrDefault(x => x.Id == influencerOffer.InfluencerId);
+                influencerOffer.AcceptedForTheOffer = true;
+                this.data.InfleuncerOffers.Update(influencerOffer);
+            }
+            catch(Exception ex)
+            {
+                Helper.Logs($"Error: {ex}" + DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"), "PublisherController_AcceptInfluencer" + DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
+            }
             return RedirectToAction("AsignedInfluencers", "Publishers");
         }
 
         [Authorize]
         public IActionResult DeclineInfluencer(int id)
         {
-            var influencerOffer = this.data.InfleuncerOffers.FirstOrDefault(x => x.InfluencerId == id);
-            influencerOffer.AcceptedForTheOffer = false;
+            try
+            {
+                var influencerOffer = this.data.InfleuncerOffers.FirstOrDefault(x => x.InfluencerId == id);
+                influencerOffer.AcceptedForTheOffer = false;
+            }
+            catch(Exception ex)
+            {
+                Helper.Logs($"Error: {ex}" + DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"), "PublisherController_DeclineInfluencer" + DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
+            }
 
             return RedirectToAction("AsignedInfluencers", "Publishers");
         }
@@ -238,7 +267,15 @@
         [Authorize]
         public IActionResult Delete(int id)
         {
-            this.publishers.DeletePublisherById(id);
+            try
+            {
+                this.publishers.DeletePublisherById(id);
+            }
+            catch(Exception ex)
+            {
+                Helper.Logs($"Error: {ex}" + DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"), "PublisherController_Delete" + DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
+            }
+
             if (User.IsAdmin())
             {
                 return RedirectToAction("Publishers", "Publishers");

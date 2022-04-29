@@ -1,9 +1,10 @@
 ﻿namespace InfluencerWannaBe.Services
 {
     using System.Linq;
+    using System.Collections.Generic;
+
     using InfluencerWannaBe.Data;
     using InfluencerWannaBe.Models;
-    using System.Collections.Generic;
     public class GetCollection : IGetCollection
     {
         private readonly InfluencerWannaBeDbContext data;

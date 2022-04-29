@@ -10,12 +10,12 @@ namespace InfluencerWannaBe
     using Microsoft.Extensions.DependencyInjection;
 
     using InfluencerWannaBe.Data;
+    using InfluencerWannaBe.Data.Models;
     using InfluencerWannaBe.Infrastructure;
-    using InfluencerWannaBe.Services.Influencers;
-    using InfluencerWannaBe.Services.Publisher;
     using InfluencerWannaBe.Services;
     using InfluencerWannaBe.Services.Offers;
-    using InfluencerWannaBe.Data.Models;
+    using InfluencerWannaBe.Services.Publisher;
+    using InfluencerWannaBe.Services.Influencers;
 
     public class Startup
     {

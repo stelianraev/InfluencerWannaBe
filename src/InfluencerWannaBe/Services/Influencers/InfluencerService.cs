@@ -1,7 +1,8 @@
 ﻿namespace InfluencerWannaBe.Services.Influencers
 {
-    using System.Collections.Generic;
     using System.Linq;
+    using System.Collections.Generic;
+
     using InfluencerWannaBe.Data;
     using InfluencerWannaBe.Data.Models;
 
@@ -24,10 +25,16 @@
                 .Select(d => d.Id)
                 .FirstOrDefault();
 
-        public Influencer GetInfluencer(string id)
+        public Influencer GetInfluencer(string userId)
          => this.data
                 .Influencers
-                .FirstOrDefault(x => x.UserId == id);
+                .FirstOrDefault(x => x.UserId == userId);
+
+        public Influencer GetInfluencer(int id)
+         => this.data
+                .Influencers
+                .FirstOrDefault(x => x.Id == id);
+
 
         public InfluencerOffers GetInfluencerOffer(Influencer influencer)
         => this.data.InfleuncerOffers.FirstOrDefault(x => x.InfluencerId == influencer.Id);
