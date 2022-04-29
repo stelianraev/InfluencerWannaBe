@@ -60,7 +60,7 @@
                     OffersSorting.DateCreated or _ => offersQuery.OrderByDescending(i => i.Id),
                 };
 
-                var totalOffers = offersQuery.Count();
+                //var totalOffers = offersQuery.Count();
 
                 var offers = offersQuery
                     .Where(x => x.IsExpired == false)
@@ -83,7 +83,7 @@
                     })
                     .ToList();
 
-                query.TotalElements = totalOffers;
+                query.TotalElements = offers.Count();
                 query.ModelCollection = offers;
             }
             catch (Exception ex)
@@ -170,7 +170,7 @@
             }
             else
             {
-                return RedirectToAction(nameof(PublishersController.PublisherOffer));
+                return RedirectToAction("PublisherOffer", "Publishers");
             }
         }
 

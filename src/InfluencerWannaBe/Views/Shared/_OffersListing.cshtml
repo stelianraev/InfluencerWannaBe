@@ -24,7 +24,7 @@
                             if (influencerOffer != null)
                             {
                                 string result = String.Empty;
-                                result = influencerOffer.AcceptedForTheOffer != true ? "Declined" : influencerOffer.AcceptedForTheOffer == true ? "Accepted" : String.Empty;
+                                result = influencerOffer?.AcceptedForTheOffer == null ? "Waiting" : influencerOffer.AcceptedForTheOffer == true ? "Accepted" : "Declined";
 
                                 if (result != String.Empty)
                                 {
