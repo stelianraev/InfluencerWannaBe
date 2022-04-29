@@ -28,18 +28,8 @@ IfluencerWannaBe is an application focused for people who are/or want to become 
 ### DataBaseDiagram
 ![DataBaseDiagram](https://github.com/stelianraev/InfluencerWannaBe/blob/main/DataBase.png)
 
-### Unit tests Code coverage
-![Unit Tests]()
+### Unit tests
+![Unit Tests](https://github.com/stelianraev/InfluencerWannaBe/blob/main/UnitTests.png)
 
 ### Author
 [Stelian Raev](https://github.com/stelianraev)
-
-
-### DataBaseDiagram
-![DataBaseDiagram] {}
-
-### Unit test
-![Unit Tests] (https://github.com/stelianraev/InfluencerWannaBe/blob/main/UnitTests.png)
-
-### Author
-![Stelian Raev] (https://github.com/stelianraev)
